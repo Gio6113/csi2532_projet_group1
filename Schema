@@ -1,0 +1,256 @@
+// SCHEMA POUR LE LIVRABLE 1 DU PROJET DE CSI2532 - BASE DE DONNEES
+
+// REMARQUES : 
+// Est-ce que DATE et TIME sont deux domaines differents ?
+// Les ENUM ne sont pas tous complets
+// Les FOREIGN KEY() REFERENCES ne sont pas complets 
+// Pour les mdf_vaccination/medication/condition/visit_treatment/medical_folder je pense qu’il puisse y avoir de la confusion avec les PRIMARY Keys et FOREIGN Keys
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+CREATE TABLE usr_user
+(
+user_id INTEGER,
+first_name VARCHAR(255),
+last_name VARCHAR(255),
+full_name VARCHAR(255),
+username VARCHAR(255),
+password TEXT,
+user_type ENUM('employee', 'patient', 'admin', 'casual'),
+dob DATE,
+age INTEGER,
+PRIMARY KEY(user_id)
+);
+
+CREATE TABLE usr_review
+(
+review_id INTEGER,
+comments TEXT,
+clinic_id INTEGER,
+communication INTEGER,
+hygene INTEGER,
+value INTEGER,
+patient_id INTEGER,
+PRIMARY KEY(review_id),
+FOREIGN KEY(clinic_id) REFERENCES
+FOREIGN KEY(patient_id) REFERENCES 
+);
+
+CREATE TABLE mdf_vaccination
+(
+folder_id INTEGER,
+line_no INTEGER,
+vaccine_name INTEGER,
+date_taken DATE,
+PRIMARY KEY(line_no),
+FOREIGN KEY(folder_id) REFERENCES
+);
+
+CREATE TABLE mdf_medication
+(
+folder_id INTEGER,
+line_no INTEGER,
+medication_name INTEGER,
+description VARCHAR(255),
+dosage VARCHAR(255),
+PRIMARY KEY(line_no),
+FOREIGN KEY(folder_id) REFERENCES
+);
+
+CREATE TABLE mdf_condition
+(
+folder_id INTEGER,
+line_no INTEGER,
+condition_name VARCHAR(100),
+description VARCHAR(255),
+PRIMARY KEY(line_no),
+FOREIGN KEY(folder_id) REFERENCES
+);
+
+
+
+CREATE TABLE mdf_visit_treatment
+(
+folder_id INTEGER,
+line_no INTEGER,
+specialist_name VARCHAR(255),
+date DATETIME ?
+summary VARCHAR(100),
+apt_id INTEGER,
+apt_type VARCHAR(255),
+diagnosis VARCHAR(255),
+tests_made VARCHAR(255),
+test_result TEXT,
+medication_prescribed VARCHAR(255),
+teeths VARCHAR(255),
+notes TEXT,
+PRIMARY KEY(line_no),
+FOREIGN KEY(folder_id) REFERENCES
+FOREIGN KEY(apt_id) REFERENCES
+);
+
+CREATE TABLE mdf_medical_folder
+(
+folder_id INTEGER,
+patient_id INTEGER,
+creation_date DATE,
+language VARCHAR(100),
+emergency_contact VARCHAR(100),
+emergency_phone VARCHAR(20),
+PRIMARY KEY(folder_id),
+FOREIGN KEY(patient_id) REFERENCES
+);
+
+CREATE TABLE usr_patient
+(
+patient_id INTEGER,
+SSN INTEGER,
+address VARCHAR(255),
+phone VARCHAR(20),
+email VARCHAR(255),
+insurance_id VARCHAR(255),
+responsible_id INTEGER,
+user_id INTEGER,
+gender ENUM(???),
+is_currently_employee BOOLEAN,
+employee_id INTEGER,
+PRIMARY KEY(patient_id),
+FOREIGN KEY(responsible_id) REFERENCES
+FOREIGN KEY(user_id) REFERENCES
+FOREIGN KEY(employee_id) REFERENCES
+);
+
+CREATE TABLE usr_employee
+(
+employee_id INTEGER,
+SSN INTEGER,
+job_type ENUM('dentist', 'receptionist', 'hygienist',  'other',  'supervisor' ),
+salary FLOAT,
+user_id INTEGER,
+work_clinic INTEGER,
+gender ENUM(???),
+address VARCHAR(255),
+PRIMARY KEY(employee_id),
+FOREIGN KEY(user_id) REFERENCES
+FOREIGN KEY(work_clinic) REFERENCES
+);
+
+CREATE TABLE usr_clinic
+(
+clinic_id INTEGER,
+city VARCHAR(255),
+address VARCHAR(255),
+director INTEGER,
+PRIMARY KEY(clinic_id)
+FOREIGN KEY(director) REFERENCES 
+);
+
+CREATE TABLE rdv_appointment
+(
+apt_id INTEGER,
+patient_id INTEGER,
+dentist_id INTEGER,
+date DATE,
+start_time TIME,
+end_time TIME,
+type VARCHAR(255),
+status ENUM('undetermined', 'canceled', finished', 'unforeseen',  'normal'),
+room_number INTEGER,
+PRIMARY KEY(apt_id),
+FOREIGN KEY(patient_id) REFERENCES
+FOREIGN KEY(dentist_id) REFERENCES
+);
+
+CREATE TABLE pay_invoice
+(
+invoice_id INTEGER,
+creation_date INTEGER,
+client_address VARCHAR(255),
+for_patient_id INTEGER,
+status ENUM(????),
+total_fees FLOAT,
+late_fee BOOLEAN,
+user_balance INTEGER,
+total_taxes FLOAT,
+PRIMARY KEY(invoice_id),
+FOREIGN KEY(for_patient_id) REFERENCES
+FOREIGN KEY(user_balance) REFERENCES
+);
+
+CREATE TABLE pay_user_balance
+(
+balance_id INTEGER,
+user_id INTEGER,
+unpaid_balance FLOAT,
+paid_amount FLOAT,
+total FLOAT,
+PRIMARY KEY(balance_id),
+FOREIGN KEY(user_id) REFERENCES
+);
+
+CREATE TABLE pay_payment
+(
+amount FLOAT,
+billing_id INTEGER,
+payment_method ????? ENUM(???)
+payment_type ????? ENUM(????) 
+invoice_id INTEGER,
+balance_id INTEGER,
+entered_by INTEGER,
+PRIMARY KEY(billing_id),
+FOREIGN KEY(invoice_id) REFERENCES
+FOREIGN KEY(balance_id) REFERENCES
+FOREIGN KEY(entered_by) REFERENCES
+);
+
+CREATE TABLE pay_insurance_claim
+(
+claim_id INTEGER,
+invoice_id INTEGER,
+claim_amount FLOAT,
+insurance_company VARCHAR(255),
+claim_status ???ENUM (??)
+user_id INTEGER,
+claim_submission_date DATE,
+claim_approved_date DATE,
+PRIMARY KEY(claim_id)
+FOREIGN KEY(invoice_id) REFERENCES
+FOREIGN KEY(user_id) REFERENCES
+);
+
+CREATE TABLE pay_invoice_detail
+(
+invdet_id INTEGER,
+invoice_id INTEGER,
+line_no INTEGER,
+proc_id INTEGER,
+discount_rate FLOAT,
+discount_type VARCHAR(255),
+insurance_coverage INTEGER,
+tax_rate FLOAT,
+FOREIGN KEY(invdet_id) REFERENCES
+FOREIGN KEY(invoice_id) REFERENCES
+FOREIGN KEY(proc_id) REFERENCES
+);
+
+CREATE TABLE rdv_procedure
+(
+proc_id INTEGER,
+line_no INTEGER,
+apt_id INTEGER,
+procedure_code INTEGER,
+tooth INTEGER,
+quantity INTEGER,
+PRIMARY KEY(proc_id);
+FOREIGN KEY(apt_id) REFERENCES
+FOREIGN KEY(procedure_code) REFERENCES
+);
+
+CREATE TABLE pay_procedure_fee
+(
+fee_id INTEGER,
+procedure_description VARCHAR(255),
+fees FLOAT,
+procedure_code INTEGER,
+PRIMARY KEY(fee_id)
+);
