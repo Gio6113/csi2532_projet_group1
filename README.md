@@ -1,1 +1,1 @@
-# seg2532_projet
+# CSI2532_projet
