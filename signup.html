@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Signup</title>
+    <link rel="stylesheet" href="general.css">
+    <script src="signup.js"></script>
+</head>
+<body>
+    <h1>Signup</h1>
+    <div class="dropdown">
+        <button class="dropbtn">Account Type</button>
+        <div class="dropdown-content">
+          <p>Doctor</p>
+          <p>Patient</p>
+          <p>Administrator</p>
+          <p>Staff</p>
+          <p>Receptionist</p>
+        </div>
+      </div>
+    <br>
+    <label for="firstName"><b>First Name:</b></label>
+    <input id="firstName" name="firstName" rows="1" cols="30" required maxlength="255">
+    <br>
+    <label for="lastName"><b>Last Name:</b></label>
+    <input id="lastName" name="lastName" rows="1" cols="30" required maxlength="255">
+    <br>
+    <label for="fullName"><b>Full Name:</b></label>
+    <input id="fullName" name="fullName" rows="1" cols="30" required maxlength="255">
+    <br>
+    <label for="username"><b>Username:</b></label>
+    <input id="username" name="username" rows="1" cols="30" required maxlength="255">
+    <br>
+    <label for="password"><b>Password:</b></label>
+    <input id="password" name="password" rows="1" cols="30" required maxlength="255">
+    <br>
+    <label for="start"><b>Date of Birth:</b></label>
+    <input type="date" id="dob" name="DateOfBirth"
+       value="2018-07-22"
+       min="1900-01-01" max="2022-12-31">
+    <br>
+    <label for="Age"><b>Age:</b></label>
+    <input type="number" id="age" name="age" max="122">
+    <br>
+    <button type="button">Create Account</button>
+
+</body>
+</html>
