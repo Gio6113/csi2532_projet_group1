@@ -1,40 +1,105 @@
-// SCHEMA POUR LE LIVRABLE 1 DU PROJET DE CSI2532 - BASE DE DONNEES
+--DROP SCHEMA IF EXISTS CSI2532_Project CASCADE;
+--CREATE SCHEMA CSI2532_Project;
+--SET search_path =  CSI2532_Project;
 
-// REMARQUES : 
-// Est-ce que DATE et TIME sont deux domaines differents ?
-// Les ENUM ne sont pas tous complets
-// Les FOREIGN KEY() REFERENCES ne sont pas complets 
-// Pour les mdf_vaccination/medication/condition/visit_treatment/medical_folder je pense qu’il puisse y avoir de la confusion avec les PRIMARY Keys et FOREIGN Keys
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+CREATE TYPE UTYPE as ENUM ('employee', 'patient', 'admin', 'casual');
 CREATE TABLE usr_user
 (
 user_id INTEGER,
-first_name VARCHAR(255),
-last_name VARCHAR(255),
-full_name VARCHAR(255),
-username VARCHAR(255),
-password TEXT,
-user_type ENUM('employee', 'patient', 'admin', 'casual'),
-dob DATE,
-age INTEGER,
-PRIMARY KEY(user_id)
+first_name VARCHAR(255)NOT NULL,
+last_name VARCHAR(255) NOT NULL,
+full_name VARCHAR(255) NOT NULL,
+username VARCHAR(255) UNIQUE NOT NULL,
+password TEXT NOT NULL,
+user_type UTYPE ,
+dob DATE NOT NULL,
+age INTEGER NOT NULL,
+PRIMARY KEY(user_id),
+CONSTRAINT valid_fname CHECK (first_name NOT LIKE '%[0-9]%'),
+CONSTRAINT valid_lname CHECK (last_name NOT LIKE '%[0-9]%')
 );
+
+
+CREATE TYPE GENDER as ENUM ('Male', 'Female', 'Non-Binary');
+CREATE TYPE JTYPE as ENUM ('dentist', 'receptionist', 'hygienist',  'other',  'supervisor' );
+CREATE TABLE usr_employee
+(
+employee_id INTEGER,
+SSN INTEGER UNIQUE NOT NULL,
+job_type JTYPE NOT NULL,
+salary FLOAT NOT NULL,
+user_id INTEGER NOT NULL,
+work_clinic INTEGER,
+gender GENDER,
+address VARCHAR(255),
+PRIMARY KEY(employee_id),
+FOREIGN KEY(user_id) REFERENCES usr_user (user_id),
+CONSTRAINT validsalary CHECK (salary > 0)
+);
+
+
+CREATE TABLE usr_clinic
+(
+clinic_id INTEGER,
+city VARCHAR(255) NOT NULL,
+address VARCHAR(255) UNIQUE NOT NULL,
+director INTEGER NOT NULL,
+PRIMARY KEY(clinic_id),
+FOREIGN KEY(director) REFERENCES usr_employee (employee_id)
+);
+
+ALTER TABLE usr_employee
+ADD CONSTRAINT FK_worksfor
+FOREIGN KEY (work_clinic) REFERENCES usr_clinic(clinic_id);
+
+
+CREATE TABLE usr_patient
+(
+patient_id INTEGER,
+SSN INTEGER UNIQUE NOT NULL,
+address VARCHAR(255) NOT NULL,
+phone VARCHAR(20) NOT NULL,
+email VARCHAR(255),
+insurance_type VARCHAR(255),
+responsible_id INTEGER,
+user_id INTEGER NOT NULL,
+gender gender,
+is_currently_employee BOOLEAN NOT NULL,
+employee_id INTEGER,
+PRIMARY KEY(patient_id),
+FOREIGN KEY(user_id) REFERENCES usr_user (user_id), 
+FOREIGN KEY(responsible_id) REFERENCES usr_user (user_id), 
+FOREIGN KEY(employee_id) REFERENCES usr_employee (employee_id) 
+);
+
 
 CREATE TABLE usr_review
 (
 review_id INTEGER,
 comments TEXT,
-clinic_id INTEGER,
+clinic_id INTEGER NOT NULL,
 communication INTEGER,
 hygene INTEGER,
 value INTEGER,
-patient_id INTEGER,
+patient_id INTEGER NOT NULL,
 PRIMARY KEY(review_id),
-FOREIGN KEY(clinic_id) REFERENCES
-FOREIGN KEY(patient_id) REFERENCES 
+FOREIGN KEY(clinic_id) REFERENCES usr_clinic (clinic_id),
+FOREIGN KEY(patient_id) REFERENCES usr_patient (patient_id),
+CONSTRAINT checkscores CHECK (communication >= 10 AND communication > 0 AND value >= 10 AND value > 0 AND hygene >= 10 AND hygene >0)
 );
+
+CREATE TABLE mdf_medical_folder
+(
+folder_id INTEGER,
+patient_id INTEGER NOT NULL,
+creation_date DATE,
+language VARCHAR(100),
+emergency_contact VARCHAR(100),
+emergency_phone VARCHAR(20),
+PRIMARY KEY(folder_id),
+FOREIGN KEY(patient_id) REFERENCES usr_patient (patient_id)
+);
+
 
 CREATE TABLE mdf_vaccination
 (
@@ -42,8 +107,9 @@ folder_id INTEGER,
 line_no INTEGER,
 vaccine_name INTEGER,
 date_taken DATE,
-PRIMARY KEY(line_no),
-FOREIGN KEY(folder_id) REFERENCES
+PRIMARY KEY(line_no, folder_id),
+FOREIGN KEY(folder_id) REFERENCES mdf_medical_folder (folder_id),
+CONSTRAINT nodoubleline UNIQUE (line_no,folder_id)
 );
 
 CREATE TABLE mdf_medication
@@ -53,8 +119,9 @@ line_no INTEGER,
 medication_name INTEGER,
 description VARCHAR(255),
 dosage VARCHAR(255),
-PRIMARY KEY(line_no),
-FOREIGN KEY(folder_id) REFERENCES
+PRIMARY KEY(line_no, folder_id),
+FOREIGN KEY(folder_id) REFERENCES mdf_medical_folder (folder_id),
+CONSTRAINT nodoubleline1 UNIQUE (line_no,folder_id)
 );
 
 CREATE TABLE mdf_condition
@@ -63,20 +130,38 @@ folder_id INTEGER,
 line_no INTEGER,
 condition_name VARCHAR(100),
 description VARCHAR(255),
-PRIMARY KEY(line_no),
-FOREIGN KEY(folder_id) REFERENCES
+PRIMARY KEY(line_no, folder_id),
+FOREIGN KEY(folder_id) REFERENCES mdf_medical_folder (folder_id),
+CONSTRAINT nodoubleline2 UNIQUE (line_no,folder_id)
 );
 
 
+CREATE TYPE APTSTATUS AS ENUM('undetermined', 'canceled', 'finished', 'unforeseen',  'normal');
+CREATE TABLE rdv_appointment
+(
+apt_id INTEGER,
+patient_id INTEGER NOT NULL,
+dentist_id INTEGER NOT NULL,
+date DATE NOT NULL,
+start_time TIME NOT NULL,
+end_time TIME NOT NULL,
+type VARCHAR(255) NOT NULL,
+status APTSTATUS NOT NULL,
+room_number INTEGER NOT NULL,
+PRIMARY KEY(apt_id),
+FOREIGN KEY(patient_id) REFERENCES usr_patient (patient_id),
+FOREIGN KEY(dentist_id) REFERENCES usr_employee (employee_id),
+CONSTRAINT validtime CHECK (start_time < end_time)
+);
 
 CREATE TABLE mdf_visit_treatment
 (
 folder_id INTEGER,
 line_no INTEGER,
 specialist_name VARCHAR(255),
-date DATETIME ?
+enter_date TIMESTAMP, 
 summary VARCHAR(100),
-apt_id INTEGER,
+apt_id INTEGER NOT NULL,
 apt_type VARCHAR(255),
 diagnosis VARCHAR(255),
 tests_made VARCHAR(255),
@@ -84,167 +169,12 @@ test_result TEXT,
 medication_prescribed VARCHAR(255),
 teeths VARCHAR(255),
 notes TEXT,
-PRIMARY KEY(line_no),
-FOREIGN KEY(folder_id) REFERENCES
-FOREIGN KEY(apt_id) REFERENCES
+PRIMARY KEY(line_no, folder_id),
+FOREIGN KEY(folder_id) REFERENCES mdf_medical_folder (folder_id),
+FOREIGN KEY(apt_id) REFERENCES rdv_appointment (apt_id),
+CONSTRAINT nodoubleline3 UNIQUE (line_no,folder_id)
 );
 
-CREATE TABLE mdf_medical_folder
-(
-folder_id INTEGER,
-patient_id INTEGER,
-creation_date DATE,
-language VARCHAR(100),
-emergency_contact VARCHAR(100),
-emergency_phone VARCHAR(20),
-PRIMARY KEY(folder_id),
-FOREIGN KEY(patient_id) REFERENCES
-);
-
-CREATE TABLE usr_patient
-(
-patient_id INTEGER,
-SSN INTEGER,
-address VARCHAR(255),
-phone VARCHAR(20),
-email VARCHAR(255),
-insurance_id VARCHAR(255),
-responsible_id INTEGER,
-user_id INTEGER,
-gender ENUM(???),
-is_currently_employee BOOLEAN,
-employee_id INTEGER,
-PRIMARY KEY(patient_id),
-FOREIGN KEY(responsible_id) REFERENCES
-FOREIGN KEY(user_id) REFERENCES
-FOREIGN KEY(employee_id) REFERENCES
-);
-
-CREATE TABLE usr_employee
-(
-employee_id INTEGER,
-SSN INTEGER,
-job_type ENUM('dentist', 'receptionist', 'hygienist',  'other',  'supervisor' ),
-salary FLOAT,
-user_id INTEGER,
-work_clinic INTEGER,
-gender ENUM(???),
-address VARCHAR(255),
-PRIMARY KEY(employee_id),
-FOREIGN KEY(user_id) REFERENCES
-FOREIGN KEY(work_clinic) REFERENCES
-);
-
-CREATE TABLE usr_clinic
-(
-clinic_id INTEGER,
-city VARCHAR(255),
-address VARCHAR(255),
-director INTEGER,
-PRIMARY KEY(clinic_id)
-FOREIGN KEY(director) REFERENCES 
-);
-
-CREATE TABLE rdv_appointment
-(
-apt_id INTEGER,
-patient_id INTEGER,
-dentist_id INTEGER,
-date DATE,
-start_time TIME,
-end_time TIME,
-type VARCHAR(255),
-status ENUM('undetermined', 'canceled', finished', 'unforeseen',  'normal'),
-room_number INTEGER,
-PRIMARY KEY(apt_id),
-FOREIGN KEY(patient_id) REFERENCES
-FOREIGN KEY(dentist_id) REFERENCES
-);
-
-CREATE TABLE pay_invoice
-(
-invoice_id INTEGER,
-creation_date INTEGER,
-client_address VARCHAR(255),
-for_patient_id INTEGER,
-status ENUM(????),
-total_fees FLOAT,
-late_fee BOOLEAN,
-user_balance INTEGER,
-total_taxes FLOAT,
-PRIMARY KEY(invoice_id),
-FOREIGN KEY(for_patient_id) REFERENCES
-FOREIGN KEY(user_balance) REFERENCES
-);
-
-CREATE TABLE pay_user_balance
-(
-balance_id INTEGER,
-user_id INTEGER,
-unpaid_balance FLOAT,
-paid_amount FLOAT,
-total FLOAT,
-PRIMARY KEY(balance_id),
-FOREIGN KEY(user_id) REFERENCES
-);
-
-CREATE TABLE pay_payment
-(
-amount FLOAT,
-billing_id INTEGER,
-payment_method ????? ENUM(???)
-payment_type ????? ENUM(????) 
-invoice_id INTEGER,
-balance_id INTEGER,
-entered_by INTEGER,
-PRIMARY KEY(billing_id),
-FOREIGN KEY(invoice_id) REFERENCES
-FOREIGN KEY(balance_id) REFERENCES
-FOREIGN KEY(entered_by) REFERENCES
-);
-
-CREATE TABLE pay_insurance_claim
-(
-claim_id INTEGER,
-invoice_id INTEGER,
-claim_amount FLOAT,
-insurance_company VARCHAR(255),
-claim_status ???ENUM (??)
-user_id INTEGER,
-claim_submission_date DATE,
-claim_approved_date DATE,
-PRIMARY KEY(claim_id)
-FOREIGN KEY(invoice_id) REFERENCES
-FOREIGN KEY(user_id) REFERENCES
-);
-
-CREATE TABLE pay_invoice_detail
-(
-invdet_id INTEGER,
-invoice_id INTEGER,
-line_no INTEGER,
-proc_id INTEGER,
-discount_rate FLOAT,
-discount_type VARCHAR(255),
-insurance_coverage INTEGER,
-tax_rate FLOAT,
-FOREIGN KEY(invdet_id) REFERENCES
-FOREIGN KEY(invoice_id) REFERENCES
-FOREIGN KEY(proc_id) REFERENCES
-);
-
-CREATE TABLE rdv_procedure
-(
-proc_id INTEGER,
-line_no INTEGER,
-apt_id INTEGER,
-procedure_code INTEGER,
-tooth INTEGER,
-quantity INTEGER,
-PRIMARY KEY(proc_id);
-FOREIGN KEY(apt_id) REFERENCES
-FOREIGN KEY(procedure_code) REFERENCES
-);
 
 CREATE TABLE pay_procedure_fee
 (
@@ -252,5 +182,108 @@ fee_id INTEGER,
 procedure_description VARCHAR(255),
 fees FLOAT,
 procedure_code INTEGER,
-PRIMARY KEY(fee_id)
+PRIMARY KEY(fee_id),
+CONSTRAINT good_fee_price CHECK (fees >=0)
+);
+
+
+CREATE TABLE rdv_procedure
+(
+proc_id INTEGER,
+line_no INTEGER,
+apt_id INTEGER NOT NULL,
+procedure_code INTEGER NOT NULL,
+tooth INTEGER,
+quantity INTEGER,
+PRIMARY KEY(proc_id),
+FOREIGN KEY(apt_id) REFERENCES rdv_appointment (apt_id),
+FOREIGN KEY(procedure_code) REFERENCES pay_procedure_fee (fee_id)
+);
+
+
+
+
+CREATE TYPE CARD AS ENUM ('VISA','Mastercard','Amex','Other');
+CREATE TABLE pay_user_balance
+(
+balance_id INTEGER,
+user_id INTEGER NOT NULL,
+prepay_authorized BOOLEAN,
+card_number BIGINT,
+card_type CARD,
+unpaid_balance FLOAT,
+paid_amount FLOAT,
+total FLOAT NOT NULL,
+PRIMARY KEY(balance_id),
+FOREIGN KEY(user_id) REFERENCES usr_user (user_id)
+);
+
+
+CREATE TYPE ISTATUS AS ENUM ('paid', 'pending', 'open', 'refunded');
+CREATE TABLE pay_invoice
+(
+invoice_id INTEGER,
+creation_date INTEGER,
+client_address VARCHAR(255),
+for_patient_id INTEGER NOT NULL,
+status ISTATUS NOT NULL,
+total_fees FLOAT,
+late_fee BOOLEAN,
+user_balance INTEGER NOT NULL,
+total_taxes FLOAT,
+PRIMARY KEY(invoice_id),
+FOREIGN KEY(for_patient_id) REFERENCES usr_patient (patient_id),
+FOREIGN KEY(user_balance) REFERENCES pay_user_balance (balance_id),
+CONSTRAINT positivefee CHECK (total_fees >=0 AND total_taxes >= 0)
+);
+
+CREATE TYPE  PAYMETH AS ENUM ('Cash','Debit','Credit','Other');
+CREATE TABLE pay_payment
+(
+amount FLOAT,
+billing_id INTEGER,
+payment_method PAYMETH,
+payment_type CARD,
+invoice_id INTEGER ,
+balance_id INTEGER NOT NULL,
+entered_by INTEGER NOT NULL,
+PRIMARY KEY(billing_id),
+FOREIGN KEY(invoice_id) REFERENCES pay_invoice (invoice_id),
+FOREIGN KEY(balance_id) REFERENCES pay_user_balance (balance_id),
+FOREIGN KEY(entered_by) REFERENCES usr_employee (employee_id)
+);
+
+CREATE TABLE pay_invoice_detail
+(
+invdet_id INTEGER,
+invoice_id INTEGER NOT NULL,
+line_no INTEGER NOT NULL,
+proc_id INTEGER ,
+discount_rate FLOAT,
+discount_type VARCHAR(255),
+insurance_coverage INTEGER,
+tax_rate FLOAT,
+PRIMARY KEY(invdet_id),
+FOREIGN KEY(invoice_id) REFERENCES pay_invoice (invoice_id),
+FOREIGN KEY(proc_id) REFERENCES rdv_procedure (proc_id),
+CONSTRAINT nodoubleline4 UNIQUE (line_no,invoice_id)
+);
+
+CREATE TYPE CSTATUS as ENUM ('Approved','Rejected','Pending','Cancelled');
+CREATE TABLE pay_insurance_claim
+(
+claim_id INTEGER,
+invoice_id INTEGER NOT NULL,
+invdet_id INTEGER NOT NULL,
+claim_amount FLOAT,
+insurance_company VARCHAR(255),
+claim_status CSTATUS,
+user_id INTEGER NOT NULL,
+claim_submission_date DATE,
+claim_approved_date DATE,
+PRIMARY KEY(claim_id),
+FOREIGN KEY(invoice_id) REFERENCES pay_invoice (invoice_id),
+FOREIGN KEY(invoice_id) REFERENCES pay_invoice_detail (invdet_id),
+FOREIGN KEY(user_id) REFERENCES usr_user (user_id),
+CONSTRAINT checkamount CHECK (claim_amount >0)
 );
