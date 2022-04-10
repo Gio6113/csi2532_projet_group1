@@ -1,6 +1,6 @@
---DROP SCHEMA IF EXISTS CSI2532_Project CASCADE;
---CREATE SCHEMA CSI2532_Project;
---SET search_path =  CSI2532_Project;
+DROP SCHEMA IF EXISTS public CASCADE;
+CREATE SCHEMA public;
+SET search_path =  public;
 
 CREATE TYPE UTYPE as ENUM ('employee', 'patient', 'admin', 'casual');
 CREATE TABLE usr_user
