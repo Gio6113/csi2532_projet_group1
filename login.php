@@ -1,8 +1,8 @@
 <?php
     require_once 'connection_string.php';
 
-    $username = $_GET["username"];
-    $password = $_GET["password"];
+    $username = $_POST["username"];
+    $password = $_POST["password"];
 
     $req = "SELECT first_name, last_name, full_name, username, user_type  FROM usr_user WHERE username='$username' AND password='$password'";
     $res = pg_query($conn, $req); 
