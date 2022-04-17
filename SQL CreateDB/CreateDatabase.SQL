@@ -5,7 +5,7 @@ DROP SCHEMA IF EXISTS public CASCADE;
 CREATE SCHEMA public;
 SET search_path =  public;
 
-CREATE TYPE UTYPE as ENUM ('employee', 'patient', 'admin', 'casual');
+CREATE TYPE UTYPE as ENUM ('employee', 'patient', 'casual');
 CREATE TABLE usr_user
 (
 user_id INTEGER,
@@ -44,9 +44,10 @@ CONSTRAINT validsalary CHECK (salary > 0)
 CREATE TABLE usr_clinic
 (
 clinic_id INTEGER,
+clinic_name VARCHAR(255),
 city VARCHAR(255) NOT NULL,
 address VARCHAR(255) UNIQUE NOT NULL,
-director INTEGER NOT NULL,
+director INTEGER,
 PRIMARY KEY(clinic_id),
 FOREIGN KEY(director) REFERENCES usr_employee (employee_id)
 );
@@ -88,7 +89,7 @@ patient_id INTEGER NOT NULL,
 PRIMARY KEY(review_id),
 FOREIGN KEY(clinic_id) REFERENCES usr_clinic (clinic_id),
 FOREIGN KEY(patient_id) REFERENCES usr_patient (patient_id),
-CONSTRAINT checkscores CHECK (communication >= 10 AND communication > 0 AND value >= 10 AND value > 0 AND hygene >= 10 AND hygene >0)
+CONSTRAINT checkscores CHECK (communication <= 10 AND communication > 0 AND value <= 10 AND value > 0 AND hygene <= 10 AND hygene >0)
 );
 
 CREATE TABLE mdf_medical_folder
@@ -300,12 +301,13 @@ SET search_path =  public;
 INSERT INTO usr_user 
 (user_id, first_name, last_name, full_name, username, password,user_type,dob,age)
 VALUES
-     --Original Admins	
-	(1,'Giorgio','Sawaya','Giorgio Sawaya','gio123','weakpassword11','admin','1991-01-09',31),
-	(2,'Hedi','Ben Abid','Hedi Ben Abid','hedi456','12345','admin','1980-02-19',42),
-	(3,'Pierre','Akladios','Pierre Akladios','pierre789','db123','admin','1901-11-06',99),
-	(4,'Zaidane','El Haouari','Zaidane El Haouari','zaidane012','33333','admin','1979-03-19',43),
-	(5,'Imad','Eddin Tijani','Imad Eddin Tijani','imad345','56789','admin','1980-10-30',41),
+     --Original Admins/Receptionists	
+	(1,'Giorgio','Sawaya','Giorgio Sawaya','gio123','weakpassword11','employee','1991-01-09',31),
+	(2,'Hedi','Ben Abid','Hedi Ben Abid','hedi456','12345','employee','1980-02-19',42),
+	(3,'Pierre','Akladios','Pierre Akladios','pierre789','db123','employee','1901-11-06',99),
+	(4,'Zaidane','El Haouari','Zaidane El Haouari','zaidane012','33333','employee','1979-03-19',43),
+	(5,'Imad','Eddin Tijani','Imad Eddin Tijani','imad345','56789','employee','1980-10-30',41),
+	(36,'Ally','Newton','Ally Newton','newt2','qwerty','employee','1979-10-30',40),
 	 --Original patients	
 	(6,'Jeff','Sulivan','Jeff Sulivan','jeff111','12345','patient','1986-03-09',36),
 	(7,'Dalila','Desktop','Dalila Desktop','dalila9d','12345','patient','1986-05-23',35),
@@ -338,9 +340,53 @@ VALUES
 	(32,'Mia','Turner','Mia Turner','worker4ever','worker4ever','employee','1962-02-09',60),
 	(33,'Michael','Godfrey','Michael Godfrey','Miketooth24','Miketooth24','employee','1952-02-22',70),
 	(34,'Zinedine','Zidane','Zinedine Zidane','bluetooth13','siuuu22','employee','1950-07-13',71),
-	(35,'Jacob','Versace','Jacob Versace','jacobEmpAccount','$1234$','employee','1995-02-01',27)
+	(35,'Jacob','Versace','Jacob Versace','jacobEmpAccount','$1234$','employee','1995-02-01',27),
+	(37,'Bella','Coletto','Bella Coletto','bellacol3','$333$','employee','1996-02-02',26)
 ;
 
+INSERT INTO usr_clinic
+(clinic_id, clinic_name, city, address, director)
+VALUES
+	(1,'National Dentist Clinic Ottawa', 'Ottawa, ON','66 Rideau Street', NULL ),
+	(2,'Ontario Provincial Dentist Clinic Toronto ', 'Toronto,ON','255 Garter Avenue', NULL),
+	(3,'Vancouver Dentist Clinic Canada', 'Vancouver, BC','721 Duncast Road', NULL),
+	(4,'Quebec Provincial Dentist Clinic Montreal',  'Montreal,QC', '322 Eliron Street', NULL),
+	(5,'Acadie Dentist Clinic Canada',  'Fredericton, NB',  '392 Colton Street', NULL),
+	(6,'Prairies Dentist Clinic Canada',  'Regina, SK', '445 Queen Crescent', NULL)
+;
+
+INSERT INTO usr_employee
+(employee_id,SSN,job_type,salary,user_id,work_clinic,gender,address)
+VALUES
+	(1,234998331,'receptionist', 120000.00,	1,1,	'Male', '416 Carter Drive, Ottawa, ON'),
+	(2,495721390,'receptionist', 138000.00,	2,2,	'Male',	'2000 Rager Crescent, Toronto, ON'),
+	(3,943353225,'receptionist', 134000.00,	3,3,	'Male',	'700 Duncast Road, Vancouver, BC'),
+	(4,515265778,'receptionist', 90000.00,	4,4,	'Male',	'131 Catherine Street, Montreal, QC'),
+	(5,245574475,'receptionist', 81000.00,	5,5,	'Male',	'49 Gallagher Drive, Fredericton, NB'),
+	(6,164715437,'receptionist', 99000.00,	6,6,	'Male',	'12 Hawthorne, Regina, SK'),
+	(7,323841052,'receptionist', 103000.00,	36, 1,	'Female',	'47 Innes Road, Ottawa, ON'),
+	(8,222832411,'supervisor',	139000.00,	28, 2,	'Non-Binary','99 Young Street, Toronto, ON'),
+	(9,900123452, 'dentist',	190000.00,	29,	3,  'Female',	'57 Calibas Street, Vancouver, BC'),
+	(10,742874723,'hygienist',	56000.00,	30, 1,  'Female',	'44 George-Etienne Drive, Ottawa, ON'),
+	(11,478219361,'dentist',	212000.00,	31, 5,	'Male',		'209 Maverick Street, Halifax, NS'),
+	(12,194281333,'dentist',	311000.00,	32,	6,	'Female',	'442 Pompon Road, Regina , SK'),
+	(13,542529127,'dentist', 	140000.00,	33,	1, 	'Male',		'12 Kayak Street, Ottawa, ON'),
+	(14,935285265,'dentist', 	200000.00,	34, 4,	'Male',		'3135 Labelle Promenade, Montreal, QC'),
+	(15,992366668,'hygienist',	35000.00,	35, 6,	'Male',		'1921 Designer Avenue, Winnipec, MB'),
+	(16,542600891,'dentist',  	150000.00,	37, 2,	'Female',	'19 Spadina Avenue, Toronto, ON')
+;
+
+UPDATE usr_clinic
+SET director = 
+	CASE clinic_id
+	WHEN 1 THEN 13
+	WHEN 2 THEN 8
+	WHEN 3 THEN 9
+	WHEN 4 THEN 14
+	WHEN 5 THEN 10
+	WHEN 6 THEN 12
+END
+;
 
 INSERT INTO usr_patient 
 (patient_id, ssn, address, phone, email, insurance_type,responsible_id,user_id,gender, is_currently_employee,employee_id)
@@ -354,17 +400,26 @@ VALUES
 	(7,843858678,'36 Bailey Avenue, Vancouver, BC',		'514-565-0031',	'SusanSingh@outlook.com',		'CAA Partial Insurance'			,NULL,	12,	'Female',	false,NULL),
 	(8,543100688,'100 Darkoak Promenade, Montreal, QC',	'438-544-7129',	'LucyHue@me.com',				'Greenshield Full Insurance'	,NULL,	13,	'Non-Binary',false, NULL),
 	(9,453383970,'201 Popular Street, Gatineau, QC',	'343-223-3267',	'JenniferLopex@icloud.com',		'Greenshield Full Insurance'	,NULL,	14,	'Female',	false,NULL),
-	--(10,99236666,'1921 Designer Avenue, Winnipec, MB',	'533-234-8874',	'JacobVersace@gucci.com',		'Employee Benefit Insurance'	,NULL,	15,	'Male',		true , 8),
-	(11,96373765,'212 Maverick Street, Halifax, NS',	'452-905-8447',	'YoussefBenArfa@yahoo.com',		'Greenshield Student Insurance'	,NULL,	16,	'Male',		false,NULL),
-	(12,23326784,'882 Mully Drive, Ottawa, ON',			'613-443-4664',	'WilliamBlack@gmail.com',		'Greenshield Student Insurance'	,NULL,	17,	'Male',		false,NULL),
-	(13,92346567,'12 Rideau Street, Ottawa, ON',		'613-841-5431',	'WendyMendy@gmail.com',			'SureHealth Youth Insurance'	,26,	18,	'Female',	false,NULL),
-	(14,93578531,'3131 Labelle Promenade, Montreal, QC','438-542-9403',	'DonnaSmith@outlook.com',		'SureHealth Youth Insurance'	,27,	19,	'Female',	false,NULL),
-	(15,14335366,'444 Didier Road, Toronto, ON',		'648-950-2534',	'DonovanDrogba@yahoo.com',		'Greenshield Youth Insurance'	,22,	20,	'Male',		false,NULL),
-	(16,57853971,'241 Visenaut Avenue, Fredericton, NB','765-904-4456',	'DaveDuncaster@gmail.com',		'SureHealth Youth Insurance'	,23,    21,	'Male',		false,NULL)
+	(10,992366668,'1921 Designer Avenue, Winnipec, MB',	'533-234-8874',	'JacobVersace@gucci.com',		'Employee Benefit Insurance'	,NULL,	15,	'Male',		true , 8),
+	(11,963737651,'212 Maverick Street, Halifax, NS',	'452-905-8447',	'YoussefBenArfa@yahoo.com',		'Greenshield Student Insurance'	,NULL,	16,	'Male',		false,NULL),
+	(12,233267843,'882 Mully Drive, Ottawa, ON',			'613-443-4664',	'WilliamBlack@gmail.com',		'Greenshield Student Insurance'	,NULL,	17,	'Male',		false,NULL),
+	(13,923465674,'12 Rideau Street, Ottawa, ON',		'613-841-5431',	'WendyMendy@gmail.com',			'SureHealth Youth Insurance'	,26,	18,	'Female',	false,NULL),
+	(14,935785351,'3131 Labelle Promenade, Montreal, QC','438-542-9403',	'DonnaSmith@outlook.com',		'SureHealth Youth Insurance'	,27,	19,	'Female',	false,NULL),
+	(15,143353661,'444 Didier Road, Toronto, ON',		'648-950-2534',	'DonovanDrogba@yahoo.com',		'Greenshield Youth Insurance'	,22,	20,	'Male',		false,NULL),
+	(16,578539714,'241 Visenaut Avenue, Fredericton, NB','765-904-4456',	'DaveDuncaster@gmail.com',		'SureHealth Youth Insurance'	,23,    21,	'Male',		false,NULL)
 ;																																								
 
-
-
-
-
-
+INSERT INTO usr_review
+(review_id, comments, clinic_id, communication, hygene, value, patient_id)
+VALUES 
+	(1, 'This clinic is great, the staff is lovely and its always clean', 1,10,9,7,12),
+	(2, 'The national clinic in ottawa is wonderful, it is massive and the wait time is minimal. It is pricy however!', 1,9,8,4,13),
+	(3, 'I had a terrible time at the Ottawa clinic, my appointment was for 1:00pm but they only took me in for my teeth cleaning at 4:00pm! Completely ridiculous', 1,1,5,5,1),
+	(4, 'Always reliable the National clinic in Ottawa. My go to clinic.', 1,8,9,7,9),
+	(5, 'This clinic is terrible and dirty . DONT GO', 2,4,1,6,4),
+	(6, 'The Vancouver clinic is the best dentist clinic I have ever seen', 3,10,10,10,7),
+	(7, 'Good dentist spot for a good price', 4,6,7,10,14),
+	(8, 'This clinic is okay, the staff could be friendlier but its always clean', 5,5,10,6,16)
+;
+	
+	
