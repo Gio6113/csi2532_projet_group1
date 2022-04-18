@@ -12,11 +12,13 @@
         <button class="dropbtn">Account Type</button>
         <div class="dropdown-content">
           <option id="medicalStaff" onclick="showExtraFields('employee'); hideExtraFields('employeePatient'); 
-          hideExtraFields('patient')">Doctor/medical staff</option>
+          hideExtraFields('patient'); hideExtraFields('underage')">Doctor/medical staff</option>
           <option id="patient"  onclick="showExtraFields('employeePatient'); showExtraFields('patient'); 
-          hideExtraFields('employee')">Patient</option>
-          <option id="user">User</option>
-          <option id="admin" onclick="showExtraFields('employee')">Admin/Receptionist</option>
+          hideExtraFields('employee'); ; hideExtraFields('underage')">Patient</option>
+          <option id="user" onclick="hideExtraFields('underage'); hideExtraFields('employeePatient');
+          hideExtraFields('patient'); hideExtraFields('underage'); hideExtraFields('employee')">User</option>
+          <option id="admin" onclick="showExtraFields('employee') ; hideExtraFields('underage'); hideExtraFields('employeePatient');
+           hideExtraFields('patient')">Admin/Receptionist</option>
         </div>
       </div>
     <div>
@@ -35,7 +37,7 @@
       <br>
       <label for="start"><b>Date of Birth:</b></label>
       <input type="date" id="dob" name="DateOfBirth"
-        value="2022-04-18"
+        value="2022-04-18" required
         min="1900-01-01" max="2022-12-31" oninput="isOldEnough()">
       <br>
       <div>
@@ -69,7 +71,7 @@
       <br>
     </div>
 
-    <div id="employee" hid>
+    <div id="employee" hidden>
       <br>
       <label for="workAdress"><b>work Adress:</b></label>
       <input id="workAdress" name="workAdress" rows="1" cols="30" required maxlength="255">
