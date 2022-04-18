@@ -11,30 +11,91 @@
     <div class="dropdown">
         <button class="dropbtn">Account Type</button>
         <div class="dropdown-content">
-          <p>Doctor/medical staff</p>
-          <p>Patient</p>
-          <p>User</p>
-          <p>Admin/Receptionist</p>
+          <option id="medicalStaff" onclick="showExtraFields('employee'); hideExtraFields('employeePatient'); 
+          hideExtraFields('patient')">Doctor/medical staff</option>
+          <option id="patient"  onclick="showExtraFields('employeePatient'); showExtraFields('patient'); 
+          hideExtraFields('employee')">Patient</option>
+          <option id="user">User</option>
+          <option id="admin" onclick="showExtraFields('employee')">Admin/Receptionist</option>
         </div>
       </div>
-    <br>
-    <label for="firstName"><b>First Name:</b></label>
-    <input id="firstName" name="firstName" rows="1" cols="30" required maxlength="255">
-    <br>
-    <label for="lastName"><b>Last Name:</b></label>
-    <input id="lastName" name="lastName" rows="1" cols="30" required maxlength="255">
-    <br>
-    <label for="username"><b>Username:</b></label>
-    <input id="username" name="username" rows="1" cols="30" required maxlength="255">
-    <br>
-    <label for="password"><b>Password:</b></label>
-    <input id="password" name="password" rows="1" cols="30" required maxlength="255">
-    <br>
-    <label for="start"><b>Date of Birth:</b></label>
-    <input type="date" id="dob" name="DateOfBirth"
-       value="2018-07-22"
-       min="1900-01-01" max="2022-12-31">
-    <br>
+    <div>
+      <br>
+      <label for="firstName"><b>First Name:</b></label>
+      <input id="firstName" name="firstName" rows="1" cols="30" required maxlength="255">
+      <br>
+      <label for="lastName"><b>Last Name:</b></label>
+      <input id="lastName" name="lastName" rows="1" cols="30" required maxlength="255">
+      <br>
+      <label for="username"><b>Username:</b></label>
+      <input id="username" name="username" rows="1" cols="30" required maxlength="255">
+      <br>
+      <label for="password"><b>Password:</b></label>
+      <input type="password" id="password" name="password" rows="1" cols="30" required maxlength="255">
+      <br>
+      <label for="start"><b>Date of Birth:</b></label>
+      <input type="date" id="dob" name="DateOfBirth"
+        value="2022-04-18"
+        min="1900-01-01" max="2022-12-31" oninput="isOldEnough()">
+      <br>
+      <div>
+        <label for="gender"><b>Gender:</b></label>
+        <br>
+        <input type="radio" id="male" name="male" value="male">
+        <label for="male">male</label>
+        <br>
+        <input type="radio" id="female" name="female" value="female">
+        <label for="female">female</label>
+        <br>
+      </div>
+      <br>
+      <label for="homeAdress"><b>Home Adress:</b></label>
+      <input id="homeAdress" name="homeAdress" rows="1" cols="30" required maxlength="255">
+      <br>
+    </div>
+    
+
+    <div id="employeePatient" hidden>
+      <br>
+      <label for="employeeId"><b>employeId: (if you are an employee)</b></label>
+      <input id="employeeId" name="employeeID" rows="1" cols="30" maxlength="255">
+      <br>
+    </div>
+
+    <div id="underage" hidden>
+      <br>
+      <label for="responsibleAdult"><b>Please enter the username associated with the account of your legal guardian:</b></label>
+      <input id="responsibleAdult" name="responsibleAdult" rows="1" cols="30" required maxlength="255">
+      <br>
+    </div>
+
+    <div id="employee" hid>
+      <br>
+      <label for="workAdress"><b>work Adress:</b></label>
+      <input id="workAdress" name="workAdress" rows="1" cols="30" required maxlength="255">
+      <br>
+      <div>
+        <label for="jobType"><b>Job type:</b></label>
+        <br>
+        <input type="radio" id="dentist" name="dentist" value="dentist">
+        <label for="dentist">Dentist</label>
+        <br>
+        <input type="radio" id="hygenist" name="hygenist" value="hygenist">
+        <label for="hygenist">hygenist</label>
+        <br>
+        <input type="radio" id="receptionist" name="receptionist" value="receptionist">
+        <label for="receptionist">receptionist/admin</label>
+        <br>
+      </div>
+    </div>
+    <div id="patient" hidden>
+      <br>
+      <label for="phone"><b>Enter your phone number:</b></label>
+      <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+      <br>
+      <label for="email"><b>Enter your email:</b></label>
+      <input type="email" id="email" name="email">
+    </div>
     <button type="button">Create Account</button>
 
 </body>
