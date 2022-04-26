@@ -12,5 +12,31 @@
     </div>
     <?php 
          session_start();
+         $curPageName = substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+1);  
+    
+         if($curPageName == 'index.php'){
+         }
+         else if (!isset($_SESSION['loggedin'])){
+             header("location: ./redirect.php");
+         }else{
+             
+            echo(
+                '<div class="navbar">
+                <ul>
+                    
+                    <li><a href="index.php">Logout</a></li>
+                    <li><a href="account_view.php">Account</a></li>
+                    <li><p class="username">Logged in as: ' . $_SESSION["fullname"] . '</p></li>
+                    <li><p class="username">Account type: ' . $_SESSION["usertype"] . '</p></li>
+                                    
+            
+                </ul>
+                </div>'
+            );
+
+         }
     ?>
+
+
+    
 </html>

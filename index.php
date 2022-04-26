@@ -8,6 +8,8 @@
 </head>
 <body>
     <?php
+        session_start();
+        session_destroy();
        include_once 'header.php';
     ?>
    
