@@ -2,14 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="general.css">
+    <link rel="stylesheet" href="CSS/general.css">
     <title>Login</title>
     <script src="login.js"></script>
 </head>
 <body>
-    <h1>Login</h1>
+    <?php
+       include_once 'header.php';
+    ?>
+   
+   <h1>Login</h1>
 
-    <form action="login.php" method="post">
+   <?php
+        if(isset($_GET["error"])){
+            if($_GET["error"] == "invalidCredentials"){
+                echo '<p class="errormsg">Invalid username or password. Please try again</p>';
+            }
+        } 
+   ?>
+   
+
+    <form action="./PHP_HELPERS/login.php" method="post">
             <label for="username"><b>Username:</b></label>
             <input id="username" name="username" rows="1" cols="30" required maxlength="255">
             <br>
@@ -20,6 +33,9 @@
     </form> 
 
     <h3>Don't have an account? Create one here to join Canada's  best dentist clinic system</h3>
-    <button type="button" id="createAccountButton">Create Account</button>
+    <a href="./signup.php">
+        <button type="button" id="createAccountButton">Create Account</button>
+    </a>
+    
 </body>
 </html>

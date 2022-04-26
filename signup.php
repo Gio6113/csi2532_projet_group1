@@ -3,10 +3,13 @@
 <head>
     <meta charset="utf-8">
     <title>Signup</title>
-    <link rel="stylesheet" href="general.css">
+    <link rel="stylesheet" href="CSS/general.css">
     <script src="signup.js"></script>
 </head>
 <body>
+    <?php
+        include_once 'header.php';
+    ?>
     <h1>Signup</h1>
     <div class="dropdown">
         <button class="dropbtn">Account Type</button>

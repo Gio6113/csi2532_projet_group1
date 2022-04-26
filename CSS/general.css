@@ -1,3 +1,4 @@
+
 .dropbtn {
     background-color: #04AA6D;
     color: white;
@@ -34,6 +35,7 @@
   .dropdown:hover .dropdown-content {display: block;}
   .dropdown:hover .dropbtn {background-color: #3e8e41;}
   
+ 
 
   label {
     margin: 15px;
@@ -46,5 +48,35 @@
   }
 
   button{
-      margin: 25px;
+      margin: 30px;
+      background-color: whitesmoke;
+      padding: 5px;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+  button:hover{
+    background-color: #04AA6D;
+  }
+
+  .header {
+    background-color: rgb(85, 85, 197);
+    display: inline-flex;
+  }
+
+  .header_title {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #bcd5cc;
+    left: 0px;
+  }
+
+  .logo {
+    width: 10%;
+    right: 0px ;
+    margin: 5px;
+    margin-left: 60px;
+  }
+  
+  .errormsg{
+    color: red;
+    font-weight: bold;
   }

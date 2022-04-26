@@ -109,7 +109,7 @@ CREATE TABLE mdf_vaccination
 (
 folder_id INTEGER,
 line_no INTEGER,
-vaccine_name INTEGER,
+vaccine_name VARCHAR(255),
 date_taken DATE,
 PRIMARY KEY(line_no, folder_id),
 FOREIGN KEY(folder_id) REFERENCES mdf_medical_folder (folder_id),
@@ -120,12 +120,11 @@ CREATE TABLE mdf_medication
 (
 folder_id INTEGER,
 line_no INTEGER,
-medication_name INTEGER,
+medication_name VARCHAR(255),
 description VARCHAR(255),
-dosage VARCHAR(255),
+dosage VARCHAR(25),
 PRIMARY KEY(line_no, folder_id),
-FOREIGN KEY(folder_id) REFERENCES mdf_medical_folder (folder_id),
-CONSTRAINT nodoubleline1 UNIQUE (line_no,folder_id)
+FOREIGN KEY(folder_id) REFERENCES mdf_medical_folder (folder_id)
 );
 
 CREATE TABLE mdf_condition
@@ -135,26 +134,27 @@ line_no INTEGER,
 condition_name VARCHAR(100),
 description VARCHAR(255),
 PRIMARY KEY(line_no, folder_id),
-FOREIGN KEY(folder_id) REFERENCES mdf_medical_folder (folder_id),
-CONSTRAINT nodoubleline2 UNIQUE (line_no,folder_id)
+FOREIGN KEY(folder_id) REFERENCES mdf_medical_folder (folder_id)
 );
 
 
-CREATE TYPE APTSTATUS AS ENUM('undetermined', 'canceled', 'finished', 'unforeseen',  'normal');
+CREATE TYPE APTSTATUS AS ENUM('canceled', 'late cancelation','unforeseen','not determined', 'finished', 'rejected by dentist',  'normal');
 CREATE TABLE rdv_appointment
 (
 apt_id INTEGER,
 patient_id INTEGER NOT NULL,
 dentist_id INTEGER NOT NULL,
+clinic_id INTEGER NOT NULL,
 date DATE NOT NULL,
 start_time TIME NOT NULL,
 end_time TIME NOT NULL,
 type VARCHAR(255) NOT NULL,
 status APTSTATUS NOT NULL,
-room_number INTEGER NOT NULL,
+room_number VARCHAR(22),
 PRIMARY KEY(apt_id),
 FOREIGN KEY(patient_id) REFERENCES usr_patient (patient_id),
 FOREIGN KEY(dentist_id) REFERENCES usr_employee (employee_id),
+FOREIGN KEY(clinic_id) REFERENCES usr_clinic (clinic_id),
 CONSTRAINT validtime CHECK (start_time < end_time)
 );
 
@@ -164,9 +164,9 @@ folder_id INTEGER,
 line_no INTEGER,
 specialist_name VARCHAR(255),
 enter_date TIMESTAMP, 
-summary VARCHAR(100),
-apt_id INTEGER NOT NULL,
-apt_type VARCHAR(255),
+summary VARCHAR(255) NOT NULL,
+apt_id INTEGER,
+apt_type VARCHAR(100) NOT NULL,
 diagnosis VARCHAR(255),
 tests_made VARCHAR(255),
 test_result TEXT,
@@ -175,8 +175,7 @@ teeths VARCHAR(255),
 notes TEXT,
 PRIMARY KEY(line_no, folder_id),
 FOREIGN KEY(folder_id) REFERENCES mdf_medical_folder (folder_id),
-FOREIGN KEY(apt_id) REFERENCES rdv_appointment (apt_id),
-CONSTRAINT nodoubleline3 UNIQUE (line_no,folder_id)
+FOREIGN KEY(apt_id) REFERENCES rdv_appointment (apt_id)
 );
 
 
@@ -341,7 +340,8 @@ VALUES
 	(33,'Michael','Godfrey','Michael Godfrey','Miketooth24','Miketooth24','employee','1952-02-22',70),
 	(34,'Zinedine','Zidane','Zinedine Zidane','bluetooth13','siuuu22','employee','1950-07-13',71),
 	(35,'Jacob','Versace','Jacob Versace','jacobEmpAccount','$1234$','employee','1995-02-01',27),
-	(37,'Bella','Coletto','Bella Coletto','bellacol3','$333$','employee','1996-02-02',26)
+	(37,'Bella','Coletto','Bella Coletto','bellacol3','$333$','employee','1996-02-02',26),
+	(38,'Sully','Lovely','Sully Lovely','sullove2','$111$','employee','1990-04-21',32)
 ;
 
 INSERT INTO usr_clinic
@@ -373,7 +373,8 @@ VALUES
 	(13,542529127,'dentist', 	140000.00,	33,	1, 	'Male',		'12 Kayak Street, Ottawa, ON'),
 	(14,935285265,'dentist', 	200000.00,	34, 4,	'Male',		'3135 Labelle Promenade, Montreal, QC'),
 	(15,992366668,'hygienist',	35000.00,	35, 6,	'Male',		'1921 Designer Avenue, Winnipec, MB'),
-	(16,542600891,'dentist',  	150000.00,	37, 2,	'Female',	'19 Spadina Avenue, Toronto, ON')
+	(16,542600891,'dentist',  	150000.00,	37, 2,	'Female',	'19 Spadina Avenue, Toronto, ON'),
+	(17,542631635,'dentist',  	150000.00,	38, 1,	'Female',	'33 Sussex Drive,Ottawa, ON')
 ;
 
 UPDATE usr_clinic
@@ -402,11 +403,11 @@ VALUES
 	(9,453383970,'201 Popular Street, Gatineau, QC',	'343-223-3267',	'JenniferLopex@icloud.com',		'Greenshield Full Insurance'	,NULL,	14,	'Female',	false,NULL),
 	(10,992366668,'1921 Designer Avenue, Winnipec, MB',	'533-234-8874',	'JacobVersace@gucci.com',		'Employee Benefit Insurance'	,NULL,	15,	'Male',		true , 8),
 	(11,963737651,'212 Maverick Street, Halifax, NS',	'452-905-8447',	'YoussefBenArfa@yahoo.com',		'Greenshield Student Insurance'	,NULL,	16,	'Male',		false,NULL),
-	(12,233267843,'882 Mully Drive, Ottawa, ON',			'613-443-4664',	'WilliamBlack@gmail.com',		'Greenshield Student Insurance'	,NULL,	17,	'Male',		false,NULL),
+	(12,233267843,'882 Mully Drive, Ottawa, ON',		'613-443-4664',	'WilliamBlack@gmail.com',		'Greenshield Student Insurance'	,NULL,	17,	'Male',		false,NULL),
 	(13,923465674,'12 Rideau Street, Ottawa, ON',		'613-841-5431',	'WendyMendy@gmail.com',			'SureHealth Youth Insurance'	,26,	18,	'Female',	false,NULL),
-	(14,935785351,'3131 Labelle Promenade, Montreal, QC','438-542-9403',	'DonnaSmith@outlook.com',		'SureHealth Youth Insurance'	,27,	19,	'Female',	false,NULL),
+	(14,935785351,'3131 Labelle Promenade, Montreal, QC','438-542-9403',	'DonnaSmith@outlook.com',	'SureHealth Youth Insurance'	,27,	19,	'Female',	false,NULL),
 	(15,143353661,'444 Didier Road, Toronto, ON',		'648-950-2534',	'DonovanDrogba@yahoo.com',		'Greenshield Youth Insurance'	,22,	20,	'Male',		false,NULL),
-	(16,578539714,'241 Visenaut Avenue, Fredericton, NB','765-904-4456',	'DaveDuncaster@gmail.com',		'SureHealth Youth Insurance'	,23,    21,	'Male',		false,NULL)
+	(16,578539714,'241 Visenaut Avenue, Fredericton, NB','765-904-4456',	'DaveDuncaster@gmail.com',	'SureHealth Youth Insurance'	,23,    21,	'Male',		false,NULL)
 ;																																								
 
 INSERT INTO usr_review
@@ -421,5 +422,158 @@ VALUES
 	(7, 'Good dentist spot for a good price', 4,6,7,10,14),
 	(8, 'This clinic is okay, the staff could be friendlier but its always clean', 5,5,10,6,16)
 ;
-	
-	
+
+INSERT INTO mdf_medical_folder
+(folder_id, patient_id, creation_date, language, emergency_contact, emergency_phone)
+VALUES 
+	(1,1,   '2018-04-23',	'English',	'Mathieu Cote',		'343-555-2345'),
+	(2,2,   '2018-12-12',	'English',	'Benjamin Franklin','306-132-3144'),
+	(3,3,   '2018-02-16',	'English',	'Borris Lorris',	'416-765-3452'),
+	(4,4,   '2018-06-06',	'English',	'Mila Friter',		'648-233-9870'),
+	(5,5,   '2018-03-29', 	'French', 	'Candice Teller',	'623-841-3321'),
+	(6,6,   '2018-08-22',	'English',	'Caroline Berger',	'416-432-6555'),
+	(7,7,   '2018-09-29',	'English',	'Raphael Fort',		'514-565-0031'),
+	(8,8,   '2018-09-22',   'English',	'Kalia Erik',		'438-544-7129'),
+	(9,9,   '2018-09-22',   'English',	'Dieu-Donne Espoir','343-223-3267'),
+	(10,10, '2019-03-21',	'English',	'Peter Parker',		'533-234-8874'),
+	(11,11, '2019-03-15',	'English',	'Elliot alderson',	'452-905-8447'),
+	(12,12, '2019-05-12',	'English',	'Bob Leponge',		'613-443-4664'),
+	(13,13, '2019-04-07',	'English',	'Mariam Mendy',		'613-841-5431'),
+	(14,14, '2019-01-04',	'French', 	'Dominic Leblanc',	'438-542-9403'),
+	(15,15, '2019-03-15',	'English',	'Levi Arthur',	 	'648-950-2534'),
+	(16,16, '2019-02-18',	'English',	'Lemy smith',	 	'765-904-4456')	
+;
+
+INSERT INTO mdf_vaccination
+(folder_id, line_no, vaccine_name, date_taken)
+VALUES 
+	(1,1,'Moderna Covid-19 Vaccine First Dose', '2021-09-10'),
+	(1,2,'Moderna Covid-19 Vaccine Second Dose', '2022-03-08'),
+	(1,3,'HepA-HepB Twinrix Vaccine', '2012-09-10'),
+	(1,4,'Measles MMRV Proquad Vaccine', '2010-09-11'),
+	(2,1,'Moderna Covid-19 Vaccine First Dose', '2021-03-12'),
+	(2,2,'Pfizer Covid-19 Vaccine Second Dose', '2021-07-30'),
+	(3,1,'Moderna Covid-19 Vaccine First Dose', '2021-05-12'),
+	(3,2,'Moderna Covid-19 Vaccine Second Dose', '2021-09-21'),
+	(3,3,'Moderna Covid-19 Vaccine Booster Dose', '2022-02-18'),
+	(4,1,'Pfizer Covid-19 Vaccine First Dose', '2021-09-10'),
+	(4,2,'Pfizer Covid-19 Vaccine Second Dose', '2022-03-08'),
+	(5,1,'Measles MMRV Proquad Vaccine', '2015-01-10'),
+	(6,1,'HepA-HepB Twinrix Vaccine', '2013-03-14'),
+	(7,1,'Measles MMRV Proquad Vaccine', '2021-09-10'),
+	(8,1,'HepA-HepB Twinrix Vaccine', '2019-03-03'),
+	(8,2,'Pfizer Covid-19 Vaccine First Dose', '2021-05-29')
+;
+
+INSERT INTO mdf_condition
+(folder_id, line_no, condition_name, description)
+VALUES 
+	(1,1,'Parkinsons', 'Slower movement, trembling, intense muscle pain'),
+	(1,2,'Depression', 'Stress, anxiety'),
+	(1,3,'Allergy to latex', 'Swelling and airway blocked'),
+	(3,1,'Oral Cancer', 'Constant pain in mouth '),
+	(4,1,'Cavities', 'Tooth loss'),
+	(5,1,'Cavities', 'Tooth loss'),
+	(6,1,'Cavities', 'Tooth loss'),
+	(7,1,'Cavities', 'Tooth loss'),
+	(8,1,'Diabetes', 'Sensitive to sugar and requires insuline'),
+	(9,1,'Cavities', 'Tooth loss'),
+	(10,1,'Gum Disease', 'Sensitive and thin gums'),
+	(11,1,'Gum Disease', 'Sensitive and thin gums'),
+	(12,1,'Cavities', '2015-01-10'),
+	(13,1,'Osteoporosis', 'Weaker jawbone structure'),
+	(12,2,'Diabetes', 'Sensitive to sugar and requires insuline'),
+	(14,1,'Nut allergy', 'Swelling and airway blocked'),
+	(14,2,'Autism', 'Sensitive to noise and touch , communication struggles, tantrums')
+;
+
+INSERT INTO mdf_medication
+(folder_id,line_no,medication_name,description,dosage)
+VALUES 
+	(1,1,'Levodopa', 'Dopamine, to lessen side effects of Parkinson','50mg/day'),
+	(1,2,'Prozac', 'anti-depressant', '300mg/day'),
+	(2,1,'Allergy to latex', 'Swelling and airway blocked', '150mg/day'),
+	(3,1,'Fentanyl', 'Pain Killer', '15mg/day'),
+	(6,1,'Chlorhexidine', 'Prevents plaque and strengthen gums', '400mg/day'),
+	(7,1,'Chlorhexidine', 'Prevents plaque and strengthen gums', '40mg/day'),
+	(7,2,'Insulin', 'Regulates sugar in blood', '2g/day'),
+	(7,3,'Advil', 'Eliviates Pain', '300mg/day'),
+	(10,1,'Chlorhexidine', 'Prevents plaque and strengthen gums', '600mg/day'),
+	(11,1,'Chlorhexidine', 'Prevents plaque and strengthen gums', '150mg/day'),
+	(12,1,'Chlorhexidine', 'Prevents plaque and strengthen gums', '200mg/day'),
+	(13,1,'Opiod', 'Narcotic for pain', '500mg/day'),
+	(12,2,'Insulin', 'Regulates sugar in blood', '1g/daily'),
+	(15,1,'Doxycycline', 'kill skin bacteria', '30mg/day'),
+	(14,1,' Abilify', 'Antipsychotic to reduce agression and stress', '200mg/day')
+;
+
+
+INSERT INTO rdv_appointment
+(apt_id, patient_id, dentist_id, clinic_id, date, start_time, end_time, type, status, room_number)
+VALUES 
+	(1,1,17,1,   '2020-02-13','09:45:00','10:45:00','Annual Clean-up','finished','12'),
+	(2,1,17,1,   '2021-01-13','10:15:00','12:30:00','Annual Clean-up','finished','122'),
+	(26,1,13,1,  '2022-01-08','10:45:00','11:30:00','Annual Clean-up','late cancelation','1B2'),
+	(3,1,13,1,   '2022-01-09','10:45:00','11:30:00','Annual Clean-up','finished','45A'),
+	(4,1,13,1,   '2023-02-15','13:00:00','15:00:00','Annual Clean-up','normal',  '162'),
+	(5,2,12,6,   '2021-05-21','14:45:00','15:45:00','Annual Clean-up','finished','A110'),
+	(6,2,12,6,   '2022-06-12','08:30:00','09:00:00','Annual Clean-up','finished','B52'),
+	(7,3,16,2,   '2020-07-17','10:15:00','10:45:00','Annual Clean-up','finished','G232'),
+	(8,3,17,1,   '2022-01-23','15:30:00','16:00:00','Annual Clean-up','finished','H12'),
+	(9,4,16,2,   '2022-02-13','09:45:00','10:45:00','Remove Cavity','finished','36'),
+	(10,4,16,2,  '2023-02-13','11:45:00','12:45:00','Annual Clean-up','normal','72'),
+	(11,5,14,4,  '2020-08-10','12:00:00','13:00:00','Annual Clean-up','finished','82'),
+	(12,7,9,3,   '2021-07-11','16:45:00','17:45:00','Annual Clean-up','finished','28'),
+	(13,8,14,4,  '2021-04-12','16:15:00','16:45:00','Annual Clean-up','late cancelation','G12'),
+	(14,9,17,1,  '2021-05-16','09:45:00','10:45:00','Annual Clean-up','finished','A298'),
+	(15,9,17,4,  '2021-06-18','17:45:00','18:45:00','Annual Clean-up','finished','B21'),
+	(16,10,12,6, '2021-02-13','09:45:00','10:45:00','Annual Clean-up','canceled','90'),
+	(17,10,12,6, '2022-07-11','10:00:00','10:30:00','Annual Clean-up','normal','12'),
+	(18,11,11,5, '2020-02-13','10:30:00','11:00:00','Annual Clean-up','finished','90'),
+	(19,11,11,5, '2020-02-13','11:00:00','11:30:00','Annual Clean-up','finished','B21'),
+	(20,12,17,1, '2020-02-13','11:30:00','12:00:00','Annual Clean-up','finished','A298'),
+	(21,12,17,1, '2022-01-29','12:30:00','13:00:00','Annual Clean-up','rejected by dentist','162'),
+	(22,12,17,1, '2023-02-06','13:00:00','13:30:00','Cavity filling','normal','45A'),
+	(23,12,13,1, '2023-09-21','14:00:00','14:30:00','Annual Clean-up','normal', '122'),
+	(24,13,17,1, '2023-02-13','14:45:00','15:45:00','Wisdom teeth removal','normal','123'),
+	(25,14,14,4, '2020-02-13','09:30:00','10:30:00','Annual Clean-up','finished','12')
+;
+
+INSERT INTO mdf_visit_treatment
+(folder_id, line_no, specialist_name, enter_date, summary, apt_id, apt_type, diagnosis, tests_made,test_result, medication_prescribed, teeths, notes)
+VALUES
+	(1,1, 'Therese Bielsa', '2019-03-15', 'MDF Transfered from outside system, Annual cleanup and checkup 2019', NULL, 'Annual clean-up', NULL, NULL, NULL, NULL,'all teeth', 'Standard checkup, nothing that is troubling at the moment , we can schedule next annual checkup.'),
+	(1,2, 'Bella Colleto', '2020-02-13', 'Annual cleanup and checkup 2020', 1, 'Annual clean-up', NULL, NULL, NULL, NULL,'all teeth', 'Standard checkup, nothing that is troubling at the moment , we can schedule next annual checkup.'),
+	(1,3, 'Bella Colleto', '2020-01-13', 'Annual cleanup and checkup 2021', 1, 'Annual clean-up', NULL, NULL, NULL, NULL,'all teeth', 'Standard checkup, a larger accumulation of plaque are now appearing , we can schedule next annual checkup and add plaque removal procedure to it.'),
+	(1,4, 'Bella Colleto', '2020-01-13', 'Annual cleanup and checkup 2021', 1, 'Annual clean-up', NULL, NULL, NULL, NULL,'all teeth', 'Standard checkup, a larger accumulation of plaque are now appearing , we can schedule next annual checkup and add plaque removal procedure to it.'),
+	(1,5, 'Bella Colleto', '2020-01-13', 'Annual cleanup and checkup 2021', 1, 'Annual clean-up', NULL, NULL, NULL, NULL,'all teeth', 'Standard checkup, a larger accumulation of plaque are now appearing , we can schedule next annual checkup and add plaque removal procedure to it.'),
+	(1,2, 'Bella Colleto', '2020-01-13', 'Annual cleanup and checkup 2021', 1, 'Annual clean-up', NULL, NULL, NULL, NULL,'all teeth', 'Standard checkup, a larger accumulation of plaque are now appearing , we can schedule next annual checkup and add plaque removal procedure to it.'),
+	(1,2, 'Bella Colleto', '2020-01-13', 'Annual cleanup and checkup 2021', 1, 'Annual clean-up', NULL, NULL, NULL, NULL,'all teeth', 'Standard checkup, a larger accumulation of plaque are now appearing , we can schedule next annual checkup and add plaque removal procedure to it.'),
+	(1,2, 'Bella Colleto', '2020-01-13', 'Annual cleanup and checkup 2021', 1, 'Annual clean-up', NULL, NULL, NULL, NULL,'all teeth', 'Standard checkup, a larger accumulation of plaque are now appearing , we can schedule next annual checkup and add plaque removal procedure to it.'),
+	(1,2, 'Bella Colleto', '2020-01-13', 'Annual cleanup and checkup 2021', 1, 'Annual clean-up', NULL, NULL, NULL, NULL,'all teeth', 'Standard checkup, a larger accumulation of plaque are now appearing , we can schedule next annual checkup and add plaque removal procedure to it.'),
+
+;
+
+	--Original doctors/medical staff
+	(28,'Christine','Aguilera','Christine Aguilera','voice22','voice22','employee','1976-02-23',46),
+	(29,'Jean','Lafleur','Jean Lafleur','jean2dentist','jean2dentist','employee','1975-02-24',47),
+	(30,'Martha','Poliski','Martha Poliski','polisher1','polisher1','employee','1974-02-19',48),
+	(31,'Emmanuel','Macaron','Emmanuel Macaron','GiletJaune12','GiletJaune12','employee','1973-02-08',49),
+	(32,'Mia','Turner','Mia Turner','worker4ever','worker4ever','employee','1962-02-09',60),
+	(33,'Michael','Godfrey','Michael Godfrey','Miketooth24','Miketooth24','employee','1952-02-22',70),
+	(34,'Zinedine','Zidane','Zinedine Zidane','bluetooth13','siuuu22','employee','1950-07-13',71),
+	(35,'Jacob','Versace','Jacob Versace','jacobEmpAccount','$1234$','employee','1995-02-01',27),
+	(37,'Bella','Coletto','Bella Coletto','bellacol3','$333$','employee','1996-02-02',26),
+	(38,'Sully','Lovely','Sully Lovely','sullove2','$111$','employee','1990-04-21',32)
+;
+	(9,900123452, 'dentist',	190000.00,	29,	3,  'Female',	'57 Calibas Street, Vancouver, BC'),
+	(10,742874723,'hygienist',	56000.00,	30, 1,  'Female',	'44 George-Etienne Drive, Ottawa, ON'),
+	(11,478219361,'dentist',	212000.00,	31, 5,	'Male',		'209 Maverick Street, Halifax, NS'),
+	(12,194281333,'dentist',	311000.00,	32,	6,	'Female',	'442 Pompon Road, Regina , SK'),
+	(13,542529127,'dentist', 	140000.00,	33,	1, 	'Male',		'12 Kayak Street, Ottawa, ON'),
+	(14,935285265,'dentist', 	200000.00,	34, 4,	'Male',		'3135 Labelle Promenade, Montreal, QC'),
+	(15,992366668,'hygienist',	35000.00,	35, 6,	'Male',		'1921 Designer Avenue, Winnipec, MB'),
+	(16,542600891,'dentist',  	150000.00,	37, 2,	'Female',	'19 Spadina Avenue, Toronto, ON'),
+	(17,542631635,'dentist',  	150000.00,	37, 1,	'Female',	'33 Sussex Drive,Ottawa, ON')
+;
+
