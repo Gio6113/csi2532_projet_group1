@@ -33,7 +33,7 @@
       <input id="lastName" name="lastName" rows="1" cols="30" required maxlength="255">
       <br>
       <label for="username"><b>Username:</b></label>
-      <input id="username" name="username" rows="1" cols="30" required maxlength="255">
+      <input id="userName" name="username" rows="1" cols="30" required maxlength="255">
       <br>
       <label for="password"><b>Password:</b></label>
       <input type="password" id="password" name="password" rows="1" cols="30" required maxlength="255">
@@ -101,7 +101,33 @@
       <label for="email"><b>Enter your email:</b></label>
       <input type="email" id="email" name="email">
     </div>
+    <div hidden>
+      <p></p>
+    </div>
+    
     <button type="button">Create Account</button>
+    <?php
+      $host = "host=localhost";
+      $port = "port=5432";
+      $dbname = "dbname=dentist_clinic";
+      $credentials = "user=postgres password=admin";
+    
+      $conn = pg_connect("$host $port $dbname $credentials");
+      if (! $conn) {
+              echo "Error : Connection to database unsuccessful\n";
+      } 
+      //find a solution for user id and age
+      $first_name = $_GET['firstName']; 
+      $last_name = $_GET['lastName']; 
+      $username = $_GET['userName'];
+      $password = $_GET['password'];
+      $user_type = $_GET['']; //tbd
+      $dob = $_GET['dob'];
+      echo $age = "<script>calculateAge($dob);</script>";
+      $sql = "INSERT INTO usr_user 
+      (user_id, first_name, last_name, full_name, username, usr_user.password, user_type, dob, age) 
+      VALUES (1, $first_name, $last_name, $first_name $last_name, $username, $password, $user_type, $dob,  "
+    ?>
 
 </body>
 </html>

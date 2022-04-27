@@ -1,7 +1,7 @@
 <?php
     session_start();
     $host = "host=localhost";
-    $port = "port=15432";
+    $port = "port=5432";
     $dbname = "dbname=dentist_clinic";
     $credentials = "user=postgres password=admin";
 
