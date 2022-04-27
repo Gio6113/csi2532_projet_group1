@@ -37,16 +37,17 @@
                     <h3>If necessary, you can change value of fields and click Save to update your account\'s information.</h3>
                     <div class="container">  
                     <hr>
-
+                    <label> User ID: </label>   
+                    <input type="text" name="user_id"  class="readonly" readonly value="' . $array_result[0]["user_id"] . '" size="4" required /> 
                     <label> Username: </label>   
-                    <input type="text" name="username"  readonly value="' . $array_result[0]["username"] . '" placeholder= "Firstname" size="20" required /> 
+                    <input type="text" name="username"  class="readonly" readonly value="' . $array_result[0]["username"] . '" placeholder= "Firstname" size="20" required /> 
                     <label> Account Type: </label>    
-                    <input type="text" readonly value="' . $array_result[0]["user_type"] . '"/>  
+                    <input type="text" class="readonly" readonly value="' . $array_result[0]["user_type"] . '"/>  
                     
                     <div>  
                 
                     <label> Full Name: </label>    
-                    <input type="text" readonly value="' . $array_result[0]["full_name"] . '"/>  
+                    <input type="text" class="readonly" readonly value="' . $array_result[0]["full_name"] . '"/>  
                     <label> Firstname: </label>   
                     <input type="text" name="firstname"  value="' . $array_result[0]["first_name"] . '"size="20" required /> 
                     <label> Lastname: </label>    
@@ -60,7 +61,7 @@
                     <label for="birthday">Date of birth:</label>
                     <input type="date" id="birthday" name="birthday" value="' . $array_result[0]["dob"] . '">
                     <label for="birthday">Age:</label>
-                    <input type="text" id="birthday" size="5" readonly name="birthday" value="' . $array_result[0]["age"] . '">
+                    <input type="text" id="birthday" size="5" class="readonly" readonly name="birthday" value="' . $array_result[0]["age"] . '">
                     <br>
                     <br>
                     <button type="submit">Save Account Information</button>
@@ -85,15 +86,18 @@
                             <div class="container">  
                             <hr>
 
+                            <label> User ID: </label>   
+                            <input type="text" name="user_id"  class="readonly" readonly value="' . $array_result[0]["user_id"] . '" size="4" required /> 
+                           
                             <label> Username: </label>   
-                            <input type="text" name="firstname"  readonly value="' . $array_result[0]["username"] . '" placeholder= "Firstname" size="20" required /> 
+                            <input type="text" name="firstname"  class="readonly" readonly value="' . $array_result[0]["username"] . '" placeholder= "Firstname" size="20" required /> 
                             <label> Account Type: </label>    
-                            <input type="text" readonly value="' . $array_result[0]["user_type"] . '"/>  
+                            <input type="text" class="readonly" readonly value="' . $array_result[0]["user_type"] . '"/>  
                             
                             <div>  
                         
                             <label> Full Name: </label>    
-                            <input type="text" readonly value="' . $array_result[0]["full_name"] . '"/>  
+                            <input type="text" class="readonly" readonly value="' . $array_result[0]["full_name"] . '"/>  
                             <label> Firstname: </label>   
                             <input type="text" name="firstname"  value="' . $array_result[0]["first_name"] . '"size="20" required /> 
                             <label> Lastname: </label>    
@@ -107,7 +111,7 @@
                             <label for="birthday">Date of birth:</label>
                             <input type="date" id="birthday" name="birthday" value="' . $array_result[0]["dob"] . '">
                             <label for="birthday">Age:</label>
-                            <input type="text" id="birthday" size="5" readonly name="birthday" value="' . $array_result[0]["age"] . '">
+                            <input type="text" id="birthday" size="5" class="readonly" readonly name="birthday" value="' . $array_result[0]["age"] . '">
                         <div class="container">
                         <hr>
                             <label>  Adresse : </label>   
@@ -116,12 +120,12 @@
                             <label>
                     
                             <label> Social security number: </label>   
-                            <input type="text" name="SSN" readonly value="' . $array_result1[0]["ssn"] . '" size="11" required />    
+                            <input type="text" name="SSN" class="readonly" readonly value="' . $array_result1[0]["ssn"] . '" size="11" required />    
                             <div>  
                             <label> 
 
                             <label> Job Title </label>   
-                            <input type="text" name="SSN" readonly value="' . $array_result1[0]["job_type"] . '" size="16" required />    
+                            <input type="text" name="SSN" class="readonly" readonly value="' . $array_result1[0]["job_type"] . '" size="16" required />    
                             <div>  
                             <label> 
                                         
@@ -154,7 +158,7 @@
                         <div class="container">
                         
                             <label> Work clinic: </label>   
-                            <input type="text" readonly name="work_clinic" value="' . $array_result1[0]["clinic_name"] . '" size="50" required />    
+                            <input type="text"  name="work_clinic" value="' . $array_result1[0]["clinic_name"] . '" size="50" required />    
                             <div>  
                             <label> 
                             <label> Salary: </label>   
@@ -174,11 +178,11 @@
                         
                             
                         <label> Work clinic: </label>   
-                        <input type="text" name="responsible" readonly value="' . $array_result1[0]["clinic_name"] . '" size="50" required />    
+                        <input type="text" name="responsible" class="readonly" readonly value="' . $array_result1[0]["clinic_name"] . '" size="50" required />    
                         <div>  
                         <label> 
                         <label> Salary: </label>   
-                        <input type="text" name="insurance"  readonly value="' . $array_result1[0]["salary"] . '" size="50" required />    
+                        <input type="text" name="insurance"  class="readonly" readonly value="' . $array_result1[0]["salary"] . '" size="50" required />    
                         <div>  
                         <label>                    
                         <br>
@@ -208,14 +212,14 @@
                             <hr>
 
                             <label> Username: </label>   
-                            <input type="text" name="username"  readonly value="' . $array_result[0]["username"] . '" placeholder= "Firstname" size="20" required /> 
+                            <input type="text" name="username"  class="readonly" readonly value="' . $array_result[0]["username"] . '" placeholder= "Firstname" size="20" required /> 
                             <label> Account Type: </label>    
-                            <input type="text" readonly value="' . $array_result[0]["user_type"] . '"/>  
+                            <input type="text" class="readonly" readonly value="' . $array_result[0]["user_type"] . '"/>  
                             
                             <div>  
                         
                             <label> Full Name: </label>    
-                            <input type="text" readonly value="' . $array_result[0]["full_name"] . '"/>  
+                            <input type="text" class="readonly" readonly value="' . $array_result[0]["full_name"] . '"/>  
                             <label> Firstname: </label>   
                             <input type="text" name="firstname"  value="' . $array_result[0]["first_name"] . '"size="20" required /> 
                             <label> Lastname: </label>    
@@ -229,7 +233,7 @@
                             <label for="birthday">Date of birth:</label>
                             <input type="date" id="birthday" name="birthday" value="' . $array_result[0]["dob"] . '">
                             <label for="birthday">Age:</label>
-                            <input type="text" id="birthday" size="5" readonly name="birthday" value="' . $array_result[0]["age"] . '">
+                            <input type="text" id="birthday" size="5" class="readonly" readonly name="birthday" value="' . $array_result[0]["age"] . '">
                         <div class="container">
                         <hr>
                             <label>  Adresse : </label>   
@@ -238,7 +242,7 @@
                             <label>
                     
                             <label> Social security number: </label>   
-                            <input type="text" name="SSN" readonly value="' . $array_result1[0]["ssn"] . '" size="11" required />    
+                            <input type="text" name="SSN" class="readonly" readonly value="' . $array_result1[0]["ssn"] . '" size="11" required />    
                             <div>  
                             <label> 
                     
@@ -291,7 +295,7 @@
                             <label> 
                     
                             <label> User currently also an employee: </label>   
-                            <input type="text" name="employed" readonly value="' . $employed . '"size="3" required />  
+                            <input type="text" name="employed" class="readonly" readonly value="' . $employed . '"size="3" required />  
                             <label> Employee account username: </label>   
                             <input type="text" name="emp_account" value="' . $array_result1[0]["username"] . '"size="15"  />    
                             <div>  
@@ -308,18 +312,18 @@
                         <div class="container">
                         
                             <label> Person Responsible: </label>   
-                            <input type="text" readonly name="responsible" value="' . $array_result1[0]["responsible_name"] . '" size="50" required />    
+                            <input type="text" class="readonly" readonly name="responsible" value="' . $array_result1[0]["responsible_name"] . '" size="50" required />    
                             <div>  
                             <label> 
                             <label> Insurance type: </label>   
-                            <input type="text" readonly name="insurance" value="' . $array_result1[0]["insurance_type"] . '" size="50" required />    
+                            <input type="text" class="readonly" readonly name="insurance" value="' . $array_result1[0]["insurance_type"] . '" size="50" required />    
                             <div>  
                             <label> 
                     
                             <label> User currently also an employee: </label>   
-                            <input type="text" name="employed" readonly value="' . $employed . '"size="3" required />  
+                            <input type="text" name="employed" class="readonly" readonly value="' . $employed . '"size="3" required />  
                             <label> Employee account username: </label>   
-                            <input type="text" name="emp_account" readonly value="' . $array_result1[0]["username"] . '"size="15"  />    
+                            <input type="text" name="emp_account" class="readonly" readonly value="' . $array_result1[0]["username"] . '"size="15"  />    
                             <div>  
                             <label> 
                             <br>
