@@ -32,13 +32,13 @@
 
     <script>
       function redirectAjouter(){
-        document.location.href="ajouter_information.html";
+        document.location.href="ajouter_information.php";
       }
       function redirectModifier(){
-        document.location.href="modifier_information.html";
+        document.location.href="modifier_information.php";
       }
       function redirectFixer(){
-        document.location.href="fixer_rendezvous.html";
+        document.location.href="fixer_rendezvous.php";
       }
     </script>
 
