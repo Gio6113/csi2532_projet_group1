@@ -9,7 +9,7 @@
 <body>
     <?php
        include_once 'header.php';
-       print_r($_SESSION);
+      
     ?>
    
    <h1>You are a casual</h1> 
