@@ -34,7 +34,7 @@
         <button type="submit" id="loginButton">Login</button>
     </form> 
 
-    <h3>Don't have an account? Create one here to join Canada's  best dentist clinic system</h3>
+    <h3>Don't have an account? Create one here to join Canada's best dentist clinic system</h3>
     <a href="./signup.php">
         <button type="button" id="createAccountButton">Create Account</button>
     </a>

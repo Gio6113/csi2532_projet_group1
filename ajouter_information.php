@@ -68,7 +68,8 @@
         </label>  
         <br>  
         <input type="radio" value="Male" name="gender" checked > Male   
-        <input type="radio" value="Female" name="gender"> Female    
+        <input type="radio" value="Female" name="gender"> Female  
+        <input type="radio" value="Non-Binary" name="gender">Non-Binary  
         </div>  
         <button type="submit">SUBMIT </Button>  
           
