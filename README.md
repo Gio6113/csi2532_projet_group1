@@ -1,7 +1,7 @@
 # CSI2532_projet
 ## BY GROUP 01
 
-### Zaidane El Haouari ()
+### Zaidane El Haouari (300130581)
 ### Imad Eddin Tijani (300195571)
 ### Pierre Akladios (300114467)
 ### Hedi Ben Abid (300123192)

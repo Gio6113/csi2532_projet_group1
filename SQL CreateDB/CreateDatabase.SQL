@@ -401,7 +401,7 @@ VALUES
 	(7,843858678,'36 Bailey Avenue, Vancouver, BC',		'514-565-0031',	'SusanSingh@outlook.com',		'CAA Partial Insurance'			,NULL,	12,	'Female',	false,NULL),
 	(8,543100688,'100 Darkoak Promenade, Montreal, QC',	'438-544-7129',	'LucyHue@me.com',				'Greenshield Full Insurance'	,NULL,	13,	'Non-Binary',false, NULL),
 	(9,453383970,'201 Popular Street, Gatineau, QC',	'343-223-3267',	'JenniferLopex@icloud.com',		'Greenshield Full Insurance'	,NULL,	14,	'Female',	false,NULL),
-	(10,992366668,'1921 Designer Avenue, Winnipec, MB',	'533-234-8874',	'JacobVersace@gucci.com',		'Employee Benefit Insurance'	,NULL,	15,	'Male',		true , 8),
+	(10,992366668,'1921 Designer Avenue, Winnipec, MB',	'533-234-8874',	'JacobVersace@gucci.com',		'Employee Benefit Insurance'	,NULL,	15,	'Male',		true , 35),
 	(11,963737651,'212 Maverick Street, Halifax, NS',	'452-905-8447',	'YoussefBenArfa@yahoo.com',		'Greenshield Student Insurance'	,NULL,	16,	'Male',		false,NULL),
 	(12,233267843,'882 Mully Drive, Ottawa, ON',		'613-443-4664',	'WilliamBlack@gmail.com',		'Greenshield Student Insurance'	,NULL,	17,	'Male',		false,NULL),
 	(13,923465674,'12 Rideau Street, Ottawa, ON',		'613-841-5431',	'WendyMendy@gmail.com',			'SureHealth Youth Insurance'	,26,	18,	'Female',	false,NULL),
