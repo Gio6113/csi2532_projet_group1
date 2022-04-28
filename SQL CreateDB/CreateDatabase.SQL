@@ -184,7 +184,7 @@ CREATE TABLE pay_procedure_fee
 fee_id INTEGER,
 procedure_description VARCHAR(255),
 fees FLOAT,
-procedure_code INTEGER,
+procedure_code INTEGER UNIQUE,
 PRIMARY KEY(fee_id),
 CONSTRAINT good_fee_price CHECK (fees >=0)
 );
@@ -553,6 +553,15 @@ VALUES
 	(1,2, 'Bella Colleto', '2020-01-13', 'Annual cleanup and checkup 2021', 1, 'Annual clean-up', NULL, NULL, NULL, NULL,'all teeth', 'Standard checkup, a larger accumulation of plaque are now appearing , we can schedule next annual checkup and add plaque removal procedure to it.')
 
 ;
+
+INSERT INTO pay_procedure_fee
+(fee_id, procedure_description, fees, procedure_code)
+VALUES
+	(1,'Late cancellation fee',14.00, 94303),
+	(2,'Fluorure pour le dent', 33.00, 1223)
+;
+	
+
 
 -- 	--Original doctors/medical staff
 -- 	(28,'Christine','Aguilera','Christine Aguilera','voice22','voice22','employee','1976-02-23',46),
