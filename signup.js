@@ -33,3 +33,9 @@ function calculateAge(dob){
 function getRandomNumberBetween(){
     return Math.floor(Math.random()*(1000000-0+1)+0);
 }
+
+function getUserType(){
+    var e = document.getElementById("user_type");
+    return e.value;
+    
+}
