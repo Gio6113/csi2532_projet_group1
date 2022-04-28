@@ -13,7 +13,7 @@
     <h1>Signup</h1>
     <div class="dropdown">
         <button class="dropbtn">Account Type</button>
-        <div class="dropdown-content">
+        <select  id="user_type" class="dropdown-content">
           <option id="medicalStaff" onclick="showExtraFields('employee'); hideExtraFields('employeePatient'); 
           hideExtraFields('patient'); hideExtraFields('underage')">Doctor/medical staff</option>
           <option id="patient"  onclick="showExtraFields('employeePatient'); showExtraFields('patient'); 
@@ -22,7 +22,7 @@
           hideExtraFields('patient'); hideExtraFields('underage'); hideExtraFields('employee')">User</option>
           <option id="admin" onclick="showExtraFields('employee') ; hideExtraFields('underage'); hideExtraFields('employeePatient');
            hideExtraFields('patient')">Admin/Receptionist</option>
-        </div>
+        </select>
       </div>
     <div>
       <br>
@@ -107,26 +107,28 @@
     
     <button type="button">Create Account</button>
     <?php
-      $host = "host=localhost";
-      $port = "port=5432";
-      $dbname = "dbname=dentist_clinic";
-      $credentials = "user=postgres password=admin";
+      include_once 'header.php';
     
       $conn = pg_connect("$host $port $dbname $credentials");
       if (! $conn) {
               echo "Error : Connection to database unsuccessful\n";
       } 
       //find a solution for user id and age
+      $user_id = "<script>getRandomNumberBetween();</script>";
+      echo $user_id;
       $first_name = $_GET['firstName']; 
       $last_name = $_GET['lastName']; 
       $username = $_GET['userName'];
       $password = $_GET['password'];
-      $user_type = $_GET['']; //tbd
+      $user_type = "<script>getUserType();</script>";
+      echo $user_type;
       $dob = $_GET['dob'];
-      echo $age = "<script>calculateAge($dob);</script>";
+      $age = "<script>calculateAge($dob);</script>";
+      echo $age;
+
       $sql = "INSERT INTO usr_user 
       (user_id, first_name, last_name, full_name, username, usr_user.password, user_type, dob, age) 
-      VALUES (1, $first_name, $last_name, $first_name $last_name, $username, $password, $user_type, $dob,  "
+      VALUES ($user_id, $first_name, $last_name, $first_name $last_name, $username, $password, $user_type, $dob, $age)  "
     ?>
 
 </body>
