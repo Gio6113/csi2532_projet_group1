@@ -557,8 +557,12 @@ VALUES
 INSERT INTO pay_procedure_fee
 (fee_id, procedure_description, fees, procedure_code)
 VALUES
-	(1,'Late cancellation fee',14.00, 94303),
-	(2,'Fluorure pour le dent', 33.00, 1223)
+	(1, 'Late cancellation fee', 14.00, 94303),
+	(2, 'Fluorure pour les dents', 33.00, 1223),
+	(3, 'Detartrage', 40.00, 1224),
+	(4, 'retrait', 35.00, 1225),
+	(5, 'guerir carie', 50.00, 1226)
+	
 ;
 	
 
