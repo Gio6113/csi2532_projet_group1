@@ -88,6 +88,12 @@
     font-weight: bold;
   }
 
+  .successmsg{
+    color: rgb(91, 146, 9);
+    font-weight: bold;
+  }
+
+
   
   .username{
     float: left ;

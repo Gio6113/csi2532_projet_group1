@@ -25,7 +25,7 @@
                 <ul>
                     
                     <li><a href="index.php">Logout</a></li>
-                    <li><a href="account_view.php?account='.$_SESSION['loggedin'].'">Account</a></li>
+                    <li><a href="account_view.php?account='.$_SESSION['loggedin'].'">My Account</a></li>
                     <li><p class="username">Logged in as: ' . $_SESSION["fullname"] . '</p></li>
                     <li><p class="username">Account type: ' . $_SESSION["usertype"] . '</p></li>
                

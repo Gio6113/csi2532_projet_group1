@@ -28,6 +28,25 @@
             if (count($array_result) < 1) {
                 echo '<p class="errormsg">Account not found. Please go back and try again.</p>';
             } else {
+               
+                if(isset($_GET["error"])){       
+                    if($_GET["error"]=='111'){               
+                        echo '<p class="errormsg">This person is under the age of 15 and needs a responsible.</p>';
+                    } 
+                    else if($_GET["error"]=='222'){
+                        echo '<p class="errormsg">Employee ID  does not correspond to an employee account.</p>';
+                    } 
+                    else if($_GET["error"]=='333'){
+                        echo '<p class="errormsg">Person Responsible cannot be a patient.</p>';
+                    } 
+                    else{               
+                        echo '<p class="errormsg">Some changes could not be saved!</p>';
+                    }
+                } 
+                else if(isset($_GET["success"])){
+                    echo '<p class="successmsg">Successfully saved!</p>';                   
+                } 
+        
 
                 echo (' <h1>Personal information here</h1>');
                 
@@ -42,7 +61,7 @@
                     <label> Username: </label>   
                     <input type="text" name="username"  class="readonly" readonly value="' . $array_result[0]["username"] . '" placeholder= "Firstname" size="20" required /> 
                     <label> Account Type: </label>    
-                    <input type="text" class="readonly" readonly value="' . $array_result[0]["user_type"] . '"/>  
+                    <input type="text" name="user_type" class="readonly" readonly value="' . $array_result[0]["user_type"] . '"/>  
                     
                     <div>  
                 
@@ -60,8 +79,8 @@
                     <label>
                     <label for="birthday">Date of birth:</label>
                     <input type="date" id="birthday" name="birthday" value="' . $array_result[0]["dob"] . '">
-                    <label for="birthday">Age:</label>
-                    <input type="text" id="birthday" size="5" class="readonly" readonly name="birthday" value="' . $array_result[0]["age"] . '">
+                    <label for="age">Age:</label>
+                    <input type="text"  size="5" class="readonly" readonly name="age" value="' . $array_result[0]["age"] . '">
                     <br>
                     <br>
                     <button type="submit">Save Account Information</button>
@@ -92,7 +111,7 @@
                             <label> Username: </label>   
                             <input type="text" name="firstname"  class="readonly" readonly value="' . $array_result[0]["username"] . '" placeholder= "Firstname" size="20" required /> 
                             <label> Account Type: </label>    
-                            <input type="text" class="readonly" readonly value="' . $array_result[0]["user_type"] . '"/>  
+                            <input type="text" name="user_type" class="readonly" readonly value="' . $array_result[0]["user_type"] . '"/>  
                             
                             <div>  
                         
@@ -110,8 +129,8 @@
                             <label>
                             <label for="birthday">Date of birth:</label>
                             <input type="date" id="birthday" name="birthday" value="' . $array_result[0]["dob"] . '">
-                            <label for="birthday">Age:</label>
-                            <input type="text" id="birthday" size="5" class="readonly" readonly name="birthday" value="' . $array_result[0]["age"] . '">
+                            <label for="age">Age:</label>
+                            <input type="text"  size="5" class="readonly" readonly name="age" value="' . $array_result[0]["age"] . '">
                         <div class="container">
                         <hr>
                             <label>  Adresse : </label>   
@@ -125,7 +144,7 @@
                             <label> 
 
                             <label> Job Title </label>   
-                            <input type="text" name="SSN" class="readonly" readonly value="' . $array_result1[0]["job_type"] . '" size="16" required />    
+                            <input type="text" name="job_type" class="readonly" readonly value="' . $array_result1[0]["job_type"] . '" size="16" required />    
                             <div>  
                             <label> 
                                         
@@ -157,8 +176,12 @@
                         echo ('
                         <div class="container">
                         
-                            <label> Work clinic: </label>   
-                            <input type="text"  name="work_clinic" value="' . $array_result1[0]["clinic_name"] . '" size="50" required />    
+                        <label> Work clinic ID: </label>   
+                        <input type="text" name="clinic_id" value="' . $array_result1[0]["work_clinic"] . '" size="5" required />    
+                    
+                            <label> Work clinic name: </label>   
+                            <input type="text" class="readonly" name="work_clinic" value="' . $array_result1[0]["clinic_name"] . '" size="50" required />    
+                                 
                             <div>  
                             <label> 
                             <label> Salary: </label>   
@@ -176,7 +199,9 @@
                         <h5>These informations can only be changed by a receptionnist. Contact your clinic if changes are required.</h5>
                         <div class="container">
                         
-                            
+                        <label> Work clinic ID: </label>   
+                        <input type="text" name="clinic_id" class="readonly" readonly value="' . $array_result1[0]["work_clinic"] . '" size="5" required />    
+                         
                         <label> Work clinic: </label>   
                         <input type="text" name="responsible" class="readonly" readonly value="' . $array_result1[0]["clinic_name"] . '" size="50" required />    
                         <div>  
@@ -192,7 +217,7 @@
                             ');
                     }
                 } else  if ($array_result[0]['user_type'] == "patient") {
-                    $req = "SELECT D.full_name as responsible_name, A.ssn, A.address, A.phone, A.email, A.insurance_type, A.gender, A.is_currently_employee, A.employee_id, B.username 
+                    $req = "SELECT A.responsible_id, D.full_name as responsible_name, A.ssn, A.address, A.phone, A.email, A.insurance_type, A.gender, A.is_currently_employee, A.employee_id, B.username 
                                 FROM usr_user C 
                                 LEFT JOIN usr_patient A
                                 ON A.user_id = C.user_id 
@@ -211,10 +236,13 @@
                             <div class="container">  
                             <hr>
 
+                            <label> User ID: </label>   
+                            <input type="text" name="user_id"  class="readonly" readonly value="' . $array_result[0]["user_id"] . '" size="4" required /> 
+                           
                             <label> Username: </label>   
                             <input type="text" name="username"  class="readonly" readonly value="' . $array_result[0]["username"] . '" placeholder= "Firstname" size="20" required /> 
                             <label> Account Type: </label>    
-                            <input type="text" class="readonly" readonly value="' . $array_result[0]["user_type"] . '"/>  
+                            <input type="text" class="readonly" name="user_type" readonly value="' . $array_result[0]["user_type"] . '"/>  
                             
                             <div>  
                         
@@ -232,8 +260,8 @@
                             <label>
                             <label for="birthday">Date of birth:</label>
                             <input type="date" id="birthday" name="birthday" value="' . $array_result[0]["dob"] . '">
-                            <label for="birthday">Age:</label>
-                            <input type="text" id="birthday" size="5" class="readonly" readonly name="birthday" value="' . $array_result[0]["age"] . '">
+                            <label for="age">Age:</label>
+                            <input type="text" size="5" class="readonly" readonly name="age" value="' . $array_result[0]["age"] . '">
                         <div class="container">
                         <hr>
                             <label>  Adresse : </label>   
@@ -285,8 +313,12 @@
                         echo ('
                         <div class="container">
                         
-                            <label> Person Responsible: </label>   
-                            <input type="text" name="responsible" value="' . $array_result1[0]["responsible_name"] . '" size="50" required />    
+                            <label>  Responsible id: </label>   
+                            <input type="text"  name="responsible_id" value="' . $array_result1[0]["responsible_id"] . '" size="4"  />    
+                            
+                            <label> Person Responsible Name: </label>   
+                            <input type="text"  class="readonly" readonly  name="responsible" value="' . $array_result1[0]["responsible_name"] . '" size="50"  />
+                           
                             <div>  
                             <label> 
                             <label> Insurance type: </label>   
@@ -297,8 +329,11 @@
                             <label> User currently also an employee: </label>   
                             <input type="text" name="employed" class="readonly" readonly value="' . $employed . '"size="3" required />  
                             <label> Employee account username: </label>   
-                            <input type="text" name="emp_account" value="' . $array_result1[0]["username"] . '"size="15"  />    
-                            <div>  
+                            <input type="text"   class="readonly" readonly name="emp_account" value="' . $array_result1[0]["username"] . '"size="15"  />    
+                            <div> 
+                            <label> Employee ID: </label>   
+                            <input type="text" name="emp_id"  value="' . $array_result1[0]["employee_id"] . '"size="4"  />    
+                            <div> 
                             <label> 
                             <br>
                             <br>
@@ -311,8 +346,12 @@
                         <h5>These informations can only be changed by a receptionnist. Contact your clinic if changes are required.</h5>
                         <div class="container">
                         
-                            <label> Person Responsible: </label>   
-                            <input type="text" class="readonly" readonly name="responsible" value="' . $array_result1[0]["responsible_name"] . '" size="50" required />    
+                            <label>  Responsible id: </label>   
+                            <input type="text" class="readonly" readonly name="responsible_id" value="' . $array_result1[0]["responsible_id"] . '" size="4"  />    
+                        
+                            <label> Person Responsible Name: </label>   
+                            <input type="text" class="readonly" readonly name="responsible" value="' . $array_result1[0]["responsible_name"] . '" size="40"  />    
+                          
                             <div>  
                             <label> 
                             <label> Insurance type: </label>   
@@ -323,7 +362,10 @@
                             <label> User currently also an employee: </label>   
                             <input type="text" name="employed" class="readonly" readonly value="' . $employed . '"size="3" required />  
                             <label> Employee account username: </label>   
-                            <input type="text" name="emp_account" class="readonly" readonly value="' . $array_result1[0]["username"] . '"size="15"  />    
+                            <input type="text"  class="readonly" readonly name="emp_account" class="readonly" readonly value="' . $array_result1[0]["username"] . '"size="15"  />    
+                            <div>  
+                            <label> Employee ID: </label>   
+                            <input type="text"  class="readonly" readonly name="emp_id" class="readonly" readonly value="' . $array_result1[0]["employee_id"] . '"size="4"  />    
                             <div>  
                             <label> 
                             <br>
