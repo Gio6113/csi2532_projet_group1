@@ -12,5 +12,19 @@
     ?>
    
    <h1>You are a dentist</h1>  
+
+   <button onclick="redirectDM()">Voir les dossiers medicales</button>
+   <button onclick="redirectApt()">Voir et Completer les rendez-vous </button>
+    
+    <script>
+      function redirectDM(){
+        document.location.href="ajouter_information.php";
+      }
+      function redirectApt(){
+        document.location.href="modifier_information.php";
+      }
+     
+    </script>
+
 </body>
 </html>

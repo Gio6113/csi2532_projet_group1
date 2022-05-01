@@ -26,9 +26,10 @@
       Veuillez cliquer sur le module qui vous intéresse afin de procéder aux étapes nécessaires.
     </p>
 
-    <button onclick="redirectAjouter()">Ajouter les informations des patients</button>
-    <button onclick="redirectModifier()">Modifier les informations des patients</button>
-    <button onclick="redirectFixer()">Fixer les rendez-vous des patients</button>
+    <button onclick="redirectAjouter()">Voir les cliniques</button>
+    <button onclick="redirectModifier()">Voir les procedures disponibles </button>
+    <button onclick="redirectUser()">Voir les utilisateurs</button>
+    <button onclick="redirectFixer()">Voir les rendez-vous par clinique</button>
 
     <script>
       function redirectAjouter(){
@@ -40,6 +41,11 @@
       function redirectFixer(){
         document.location.href="fixer_rendezvous.php";
       }
+
+      function redirectUser(){
+        document.location.href="receptionist_search_user.php";
+      }
+      
     </script>
 
   </body>

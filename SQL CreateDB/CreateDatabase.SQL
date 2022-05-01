@@ -36,7 +36,7 @@ work_clinic INTEGER NOT NULL,
 gender GENDER,
 address VARCHAR(255),
 PRIMARY KEY(employee_id),
-FOREIGN KEY(user_id) REFERENCES usr_user (user_id),
+FOREIGN KEY(user_id) REFERENCES usr_user (user_id) ON DELETE CASCADE,
 CONSTRAINT validsalary CHECK (salary > 0)
 );
 
@@ -49,12 +49,12 @@ city VARCHAR(255) NOT NULL,
 address VARCHAR(255) UNIQUE NOT NULL,
 director INTEGER,
 PRIMARY KEY(clinic_id),
-FOREIGN KEY(director) REFERENCES usr_employee (employee_id)
+FOREIGN KEY(director) REFERENCES usr_employee (employee_id) ON DELETE SET NULL
 );
 
 ALTER TABLE usr_employee
 ADD CONSTRAINT FK_worksfor
-FOREIGN KEY (work_clinic) REFERENCES usr_clinic(clinic_id);
+FOREIGN KEY (work_clinic) REFERENCES usr_clinic(clinic_id) ;
 
 
 CREATE TABLE usr_patient
@@ -71,9 +71,9 @@ gender gender,
 is_currently_employee BOOLEAN NOT NULL,
 employee_id INTEGER,
 PRIMARY KEY(patient_id),
-FOREIGN KEY(user_id) REFERENCES usr_user (user_id), 
-FOREIGN KEY(responsible_id) REFERENCES usr_user (user_id), 
-FOREIGN KEY(employee_id) REFERENCES usr_employee (employee_id) 
+FOREIGN KEY(user_id) REFERENCES usr_user (user_id) ON DELETE CASCADE, 
+FOREIGN KEY(responsible_id) REFERENCES usr_user (user_id) ON DELETE SET NULL, 
+FOREIGN KEY(employee_id) REFERENCES usr_employee (employee_id)  ON DELETE SET NULL
 );
 
 
@@ -87,8 +87,8 @@ hygene INTEGER,
 value INTEGER,
 patient_id INTEGER NOT NULL,
 PRIMARY KEY(review_id),
-FOREIGN KEY(clinic_id) REFERENCES usr_clinic (clinic_id),
-FOREIGN KEY(patient_id) REFERENCES usr_patient (patient_id),
+FOREIGN KEY(clinic_id) REFERENCES usr_clinic (clinic_id) ON DELETE CASCADE,
+FOREIGN KEY(patient_id) REFERENCES usr_patient (patient_id) ON DELETE CASCADE,
 CONSTRAINT checkscores CHECK (communication <= 10 AND communication > 0 AND value <= 10 AND value > 0 AND hygene <= 10 AND hygene >0)
 );
 
@@ -101,7 +101,7 @@ language VARCHAR(100),
 emergency_contact VARCHAR(100),
 emergency_phone VARCHAR(20),
 PRIMARY KEY(folder_id),
-FOREIGN KEY(patient_id) REFERENCES usr_patient (patient_id)
+FOREIGN KEY(patient_id) REFERENCES usr_patient (patient_id) ON DELETE CASCADE
 );
 
 
@@ -112,7 +112,7 @@ line_no INTEGER,
 vaccine_name VARCHAR(255),
 date_taken DATE,
 PRIMARY KEY(line_no, folder_id),
-FOREIGN KEY(folder_id) REFERENCES mdf_medical_folder (folder_id),
+FOREIGN KEY(folder_id) REFERENCES mdf_medical_folder (folder_id) ON DELETE CASCADE,
 CONSTRAINT nodoubleline UNIQUE (line_no,folder_id)
 );
 
@@ -124,7 +124,7 @@ medication_name VARCHAR(255),
 description VARCHAR(255),
 dosage VARCHAR(25),
 PRIMARY KEY(line_no, folder_id),
-FOREIGN KEY(folder_id) REFERENCES mdf_medical_folder (folder_id)
+FOREIGN KEY(folder_id) REFERENCES mdf_medical_folder (folder_id) ON DELETE CASCADE
 );
 
 CREATE TABLE mdf_condition
@@ -134,7 +134,7 @@ line_no INTEGER,
 condition_name VARCHAR(100),
 description VARCHAR(255),
 PRIMARY KEY(line_no, folder_id),
-FOREIGN KEY(folder_id) REFERENCES mdf_medical_folder (folder_id)
+FOREIGN KEY(folder_id) REFERENCES mdf_medical_folder (folder_id) ON DELETE CASCADE
 );
 
 
@@ -152,9 +152,9 @@ type VARCHAR(255) NOT NULL,
 status APTSTATUS NOT NULL,
 room_number VARCHAR(22),
 PRIMARY KEY(apt_id),
-FOREIGN KEY(patient_id) REFERENCES usr_patient (patient_id),
-FOREIGN KEY(dentist_id) REFERENCES usr_employee (employee_id),
-FOREIGN KEY(clinic_id) REFERENCES usr_clinic (clinic_id),
+FOREIGN KEY(patient_id) REFERENCES usr_patient (patient_id) ON DELETE CASCADE,
+FOREIGN KEY(dentist_id) REFERENCES usr_employee (employee_id) ON DELETE CASCADE,
+FOREIGN KEY(clinic_id) REFERENCES usr_clinic (clinic_id) ON DELETE SET NULL,
 CONSTRAINT validtime CHECK (start_time < end_time)
 );
 
@@ -174,8 +174,8 @@ medication_prescribed VARCHAR(255),
 teeths VARCHAR(255),
 notes TEXT,
 PRIMARY KEY(line_no, folder_id),
-FOREIGN KEY(folder_id) REFERENCES mdf_medical_folder (folder_id),
-FOREIGN KEY(apt_id) REFERENCES rdv_appointment (apt_id)
+FOREIGN KEY(folder_id) REFERENCES mdf_medical_folder (folder_id) ON DELETE CASCADE,
+FOREIGN KEY(apt_id) REFERENCES rdv_appointment (apt_id) ON DELETE CASCADE
 );
 
 
@@ -199,8 +199,8 @@ procedure_code INTEGER NOT NULL,
 tooth INTEGER,
 quantity INTEGER,
 PRIMARY KEY(proc_id),
-FOREIGN KEY(apt_id) REFERENCES rdv_appointment (apt_id),
-FOREIGN KEY(procedure_code) REFERENCES pay_procedure_fee (fee_id)
+FOREIGN KEY(apt_id) REFERENCES rdv_appointment (apt_id) ON DELETE SET NULL,
+FOREIGN KEY(procedure_code) REFERENCES pay_procedure_fee (fee_id) ON DELETE SET NULL
 );
 
 
@@ -287,7 +287,7 @@ claim_approved_date DATE,
 PRIMARY KEY(claim_id),
 FOREIGN KEY(invoice_id) REFERENCES pay_invoice (invoice_id),
 FOREIGN KEY(invoice_id) REFERENCES pay_invoice_detail (invdet_id),
-FOREIGN KEY(user_id) REFERENCES usr_user (user_id),
+FOREIGN KEY(user_id) REFERENCES usr_user (user_id) ON DELETE CASCADE,
 CONSTRAINT checkamount CHECK (claim_amount >0)
 );
 
@@ -401,7 +401,7 @@ VALUES
 	(7,843858678,'36 Bailey Avenue, Vancouver, BC',		'514-565-0031',	'SusanSingh@outlook.com',		'CAA Partial Insurance'			,NULL,	12,	'Female',	false,NULL),
 	(8,543100688,'100 Darkoak Promenade, Montreal, QC',	'438-544-7129',	'LucyHue@me.com',				'Greenshield Full Insurance'	,NULL,	13,	'Non-Binary',false, NULL),
 	(9,453383970,'201 Popular Street, Gatineau, QC',	'343-223-3267',	'JenniferLopex@icloud.com',		'Greenshield Full Insurance'	,NULL,	14,	'Female',	false,NULL),
-	(10,992366668,'1921 Designer Avenue, Winnipec, MB',	'533-234-8874',	'JacobVersace@gucci.com',		'Employee Benefit Insurance'	,NULL,	15,	'Male',		true , 35),
+	(10,992366668,'1921 Designer Avenue, Winnipec, MB',	'533-234-8874',	'JacobVersace@gucci.com',		'Employee Benefit Insurance'	,NULL,	15,	'Male',		true , 15),
 	(11,963737651,'212 Maverick Street, Halifax, NS',	'452-905-8447',	'YoussefBenArfa@yahoo.com',		'Greenshield Student Insurance'	,NULL,	16,	'Male',		false,NULL),
 	(12,233267843,'882 Mully Drive, Ottawa, ON',		'613-443-4664',	'WilliamBlack@gmail.com',		'Greenshield Student Insurance'	,NULL,	17,	'Male',		false,NULL),
 	(13,923465674,'12 Rideau Street, Ottawa, ON',		'613-841-5431',	'WendyMendy@gmail.com',			'SureHealth Youth Insurance'	,26,	18,	'Female',	false,NULL),

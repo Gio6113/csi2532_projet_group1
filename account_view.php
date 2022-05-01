@@ -12,7 +12,7 @@
 
 
     <?php
-    require_once './PHP_HELPERS/connection_string.php';
+    include_once 'header.php';
     if(!isset($_GET['account'])){
         echo '<p class="errormsg">Account not specified.</p>';
     }else{

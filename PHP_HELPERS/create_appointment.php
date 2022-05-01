@@ -9,6 +9,10 @@
     $lastname =  $_POST["lastname"];
     $roomnumber =  $_POST["xxx"];
 
-    $req = "SELECT user_id, first_name, last_name, full_name, username, user_type  FROM usr_user WHERE username='$username' AND password='$password'";
+
+
+    $req = "INSERT  user_id, first_name, last_name, full_name, username, user_type  FROM usr_user WHERE username='$username' AND password='$password'";
     $res = pg_query($conn, $req); 
+
+   
 ?>

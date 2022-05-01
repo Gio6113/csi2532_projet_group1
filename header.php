@@ -11,7 +11,7 @@
          <img class="logo" src="IMG/logo.jpg">
     </div>
     <?php 
-         session_start();
+          require_once './PHP_HELPERS/connection_string.php';
          $curPageName = substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+1);  
     
          if($curPageName == 'index.php' || $curPageName == 'signup.php' ){
@@ -26,6 +26,7 @@
                     
                     <li><a href="index.php">Logout</a></li>
                     <li><a href="account_view.php?account='.$_SESSION['loggedin'].'">My Account</a></li>
+                    <li><a href="./PHP_HELPERS/mainmenu.php?acctype='.$_SESSION['usertype'].'">My Main Menu</a></li>
                     <li><p class="username">Logged in as: ' . $_SESSION["fullname"] . '</p></li>
                     <li><p class="username">Account type: ' . $_SESSION["usertype"] . '</p></li>
                

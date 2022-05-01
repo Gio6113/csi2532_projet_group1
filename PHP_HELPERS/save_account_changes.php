@@ -11,10 +11,11 @@
 <body>
 
     <?php
+   
      require_once 'connection_string.php';
 
     if(isset($_POST)){
-            print_r($_POST);
+        
         $_redirect = null;
         $user_id = $_POST["user_id"];
         $firstname = $_POST["firstname"];

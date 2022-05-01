@@ -137,4 +137,40 @@
     background-color: #bcd5cc;
     color: #606160;
   }
+
+
+  table {
+    border-collapse: collapse;
+    border: 2px solid grey;
+    padding: 15px;
+  }
+
+  th  {
+    padding: 5px;
+    width: 200px;
+    border: 2px solid grey;
+  }
  
+  .thsmall {
+    width: 75px !important;
+  }
+
+
+  
+  tr {
+    padding: 5px;
+    border: 1px solid lightgrey;
+  }
+
+  td{
+    padding: 5px;
+  }
+
+  .td{
+    border: 1px solid lightgrey;
+  }
+
+
+  .imgbtn:hover{
+    opacity: 0.6;
+  }
