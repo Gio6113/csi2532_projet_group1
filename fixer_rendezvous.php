@@ -9,6 +9,7 @@
     </style>
   </head>
   <body>
+
     <p class="phrase_accroche">
         Sur cette page, vous serez en mesure de fixer les rendez-vous des patients.
     </p>
@@ -17,7 +18,8 @@
         Veuillez remplir les cases désirées puis cliquer sur SUBMIT.
     </p>
 
-
+      
+    <form action="./PHP_HELPERS/create_appointment.php" method="post">
     First and Last Name :
         <label> Firstname: </label>   
         <input type="text" name="firstname" placeholder= "Firstname" size="15" required /> 
@@ -79,7 +81,7 @@
 
     Choisissez le type de procedure que le patient souhaite faire:  
       </label>   
-      <select>  
+      <select name="procedure">  
       <option value="Fluorure pour les dents">Fluorure pour les dents</option>  
       <option value="Detartrage">Detartrage</option>  
       <option value="retrait">retrait</option>  
@@ -96,6 +98,6 @@
 
     
     <button type="submit">SUBMIT </Button>
-    
+    </form>
   </body>
 </html>

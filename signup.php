@@ -104,9 +104,11 @@
     <div hidden>
       <p></p>
     </div>
-    
-    <button type="button">Create Account</button>
+    <form method="post">
+    <button type="button" name="create">Create Account</button>
+    </form>
     <?php
+    if(isset($_POST['create'])){
       include_once 'header.php';
     
       $conn = pg_connect("$host $port $dbname $credentials");
@@ -128,7 +130,8 @@
 
       $sql = "INSERT INTO usr_user 
       (user_id, first_name, last_name, full_name, username, usr_user.password, user_type, dob, age) 
-      VALUES ($user_id, $first_name, $last_name, $first_name $last_name, $username, $password, $user_type, $dob, $age)  "
+      VALUES ($user_id, $first_name, $last_name, $first_name $last_name, $username, $password, $user_type, $dob, $age)"; 
+    }
     ?>
 
 </body>
