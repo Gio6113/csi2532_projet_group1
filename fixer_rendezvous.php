@@ -27,15 +27,15 @@
     <label>
     
       <label> Identifiant du dentiste: </label>   
-      <input type="text" name="xxx" placeholder= "xxx" size="15" required />    
+      <input type="text" name="id_dentiste" placeholder= "id_dentiste" size="15" required />    
       <div>  
       <label> 
       <label> Nom du patient: </label>   
-      <input type="text" name="xxx" placeholder= "xxx" size="15" required />    
+      <input type="text" name="name_patient" placeholder= "name_patient" size="15" required />    
       <div>  
       <label>
       <label> Identifiant du patient: </label>   
-      <input type="text" name="xxx" placeholder= "xxx" size="15" required />    
+      <input type="text" name="id_patient" placeholder= "id_patient" size="15" required />    
       <div>  
       <label>
    
@@ -47,17 +47,17 @@
       <label> Heure de debut: </label>   
       <input type="text" name="xx:xx" placeholder= "xx:xx" size="15" required /> 
       <label> Heure de fin: </label>
-      <input type="text" name="xx:xx" placeholder="xx:xx" size="15"required />   
+      <input type="text" name="yy:yy" placeholder="yy:yy" size="15"required />   
       <div>
 
    
       <label> Appointment Identifiant: </label>   
-      <input type="text" name="xxx" placeholder= "xxx" size="15" required />    
+      <input type="text" name="id_appointment" placeholder= "id_appointment" size="15" required />    
       <div>  
       <label>
 
       <label> Room number: </label>   
-      <input type="text" name="xxx" placeholder= "xxx" size="15" required />    
+      <input type="text" name="room_number" placeholder= "room_number" size="15" required />    
       <div>  
       <label>
 
@@ -90,7 +90,7 @@
       <label>
 
     <label> Sur combien de dents le patient sera-t-il opere ? : </label>   
-    <input type="text" name="xxx" placeholder= "xxx" size="15" required />    
+    <input type="text" name="quantite" placeholder= "quantite" size="15" required />    
     <div>  
     <label>
 
