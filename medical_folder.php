@@ -17,10 +17,9 @@
         echo '<p class="errormsg">Patient medical folder not found.</p>';
     } else {
         $patientid = $_GET['patient'];
+        
 
-        if ($_GET['patient'] != $_SESSION['loggedin'] &&  $_SESSION['usertype'] != 'dentist') {
-            echo ("You are not allowed to view this content");
-        } else {
+      
             $mdfheader = "SELECT A.folder_id, A.patient_id, creation_date, language, emergency_contact, SSN, dob, emergency_phone, full_name   
                         FROM mdf_medical_folder A
                         LEFT JOIN usr_patient B
@@ -92,6 +91,8 @@
                      <input type="text" name="language" class="readonly" readonly value="' . $mdfheader_result[0]["language"] . '"/>  
                     
                      <hr>
+                     </div>
+                     <div class="toptables">
                     
                      ');
 
@@ -149,38 +150,14 @@
                     <td>' . $row["date_taken"] . '</td>                  
                     <tr> ';
             }
-            echo'</table> </div>';
+            echo'</table> </div> </div> <br>';
 
 
-            foreach ($mdfcondition_result as $row) {
-
-                echo '<tr>
-                    <td>' . $row["condition_name"] . '</td>
-                    <td>' . $row["description"] . '</td>                  
-                    <tr> ';
-            }
-            echo'</table> </div>';
-
-            echo '
-            <div class="vaccination_table">
-            <h4>Vaccination</h4>
-            <table>
-             <tr>
-                 <th>Name</th>
-                 <th>Description</th>
-             </tr>';
-
-            foreach ($mdfvaccination_result as $row) {
-
-                echo '<tr>
-                    <td>' . $row["vaccine_name"] . '</td>
-                    <td>' . $row["date_taken"] . '</td>                  
-                    <tr> ';
-            }
-            echo'</table> </div>';
+          
 
             
             echo '
+            <br> <br>
             <div class="visits_table">
             <h4>Medical checkup history</h4>
             <table>
@@ -214,8 +191,9 @@
                     <tr> ';
             }
             echo'</table> </div>';
-
-        }
+            
+            echo'  </form>';
+        
 
         
     }

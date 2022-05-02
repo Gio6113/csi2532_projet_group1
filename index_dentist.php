@@ -11,17 +11,20 @@
        include_once 'header.php';
     ?>
    
-   <h1>You are a dentist</h1>  
+   <h4>As a medical staff, you can view the appointments that are booked with you and accept, reject or complete them by clicking  "View and complete appointments". 
+       You can also view and edit medical folders with "View and edit medical folders".
+</h4>  
 
-   <button onclick="redirectDM()">Voir les dossiers medicales</button>
-   <button onclick="redirectApt()">Voir et Completer les rendez-vous </button>
+    <button onclick="redirectApt()">View and complete appointments </button>
     
+   <button onclick="redirectDM()">View and edit Medical Folders</button>
+
     <script>
       function redirectDM(){
-        document.location.href="ajouter_information.php";
+        document.location.href="dentist_search_user.php";
       }
       function redirectApt(){
-        document.location.href="modifier_information.php";
+        document.location.href="viewaptdentist.php";
       }
      
     </script>

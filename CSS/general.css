@@ -174,3 +174,35 @@
   .imgbtn:hover{
     opacity: 0.6;
   }
+
+
+  .condition_table{
+    font-size: 11px;
+    width: 27%;
+    float: left;
+    margin: 15px;
+  }
+
+  .medication_table{
+    font-size: 11px;
+    width: 27%;
+    float: left;
+    margin: 15px;
+  }
+
+  .vaccination_table{
+    font-size: 11px;
+    width: 37%;
+    float: left;
+    margin: 10px;
+  }
+
+  .visits_table{
+    font-size: 13px;
+    width: 90%;
+    margin: 10px;
+  }
+  .toptable{
+    margin-bottom: 30px;
+  
+  }

@@ -163,7 +163,7 @@ CREATE TABLE mdf_visit_treatment
 folder_id INTEGER,
 line_no INTEGER,
 specialist_name VARCHAR(255),
-enter_date TIMESTAMP, 
+enter_date DATE, 
 summary VARCHAR(255) NOT NULL,
 apt_id INTEGER,
 apt_type VARCHAR(100) NOT NULL,
@@ -536,21 +536,20 @@ VALUES
 	(22,12,17,1, '2023-02-06','13:00:00','13:30:00','Cavity filling','normal','45A'),
 	(23,12,13,1, '2023-09-21','14:00:00','14:30:00','Annual Clean-up','normal', '122'),
 	(24,13,17,1, '2023-02-13','14:45:00','15:45:00','Wisdom teeth removal','normal','123'),
-	(25,14,14,4, '2020-02-13','09:30:00','10:30:00','Annual Clean-up','finished','12')
+	(25,14,14,4, '2020-02-13','09:30:00','10:30:00','Annual Clean-up','finished','12'),
+	(27,1,17,1,   '2023-03-23','09:45:00','10:45:00','Cavity filling','normal','12'),
+	
 ;
 
 INSERT INTO mdf_visit_treatment
 (folder_id, line_no, specialist_name, enter_date, summary, apt_id, apt_type, diagnosis, tests_made,test_result, medication_prescribed, teeths, notes)
 VALUES
 	(1,1, 'Therese Bielsa', '2019-03-15', 'MDF Transfered from outside system, Annual cleanup and checkup 2019', NULL, 'Annual clean-up', NULL, NULL, NULL, NULL,'all teeth', 'Standard checkup, nothing that is troubling at the moment , we can schedule next annual checkup.'),
-	-- (1,2, 'Bella Colleto', '2020-02-13', 'Annual cleanup and checkup 2020', 1, 'Annual clean-up', NULL, NULL, NULL, NULL,'all teeth', 'Standard checkup, nothing that is troubling at the moment , we can schedule next annual checkup.'),
-	-- (1,3, 'Bella Colleto', '2020-01-13', 'Annual cleanup and checkup 2021', 1, 'Annual clean-up', NULL, NULL, NULL, NULL,'all teeth', 'Standard checkup, a larger accumulation of plaque are now appearing , we can schedule next annual checkup and add plaque removal procedure to it.'),
-	-- (1,4, 'Bella Colleto', '2020-01-13', 'Annual cleanup and checkup 2021', 1, 'Annual clean-up', NULL, NULL, NULL, NULL,'all teeth', 'Standard checkup, a larger accumulation of plaque are now appearing , we can schedule next annual checkup and add plaque removal procedure to it.'),
-	-- (1,5, 'Bella Colleto', '2020-01-13', 'Annual cleanup and checkup 2021', 1, 'Annual clean-up', NULL, NULL, NULL, NULL,'all teeth', 'Standard checkup, a larger accumulation of plaque are now appearing , we can schedule next annual checkup and add plaque removal procedure to it.'),
-	-- (1,2, 'Bella Colleto', '2020-01-13', 'Annual cleanup and checkup 2021', 1, 'Annual clean-up', NULL, NULL, NULL, NULL,'all teeth', 'Standard checkup, a larger accumulation of plaque are now appearing , we can schedule next annual checkup and add plaque removal procedure to it.'),
-	-- (1,2, 'Bella Colleto', '2020-01-13', 'Annual cleanup and checkup 2021', 1, 'Annual clean-up', NULL, NULL, NULL, NULL,'all teeth', 'Standard checkup, a larger accumulation of plaque are now appearing , we can schedule next annual checkup and add plaque removal procedure to it.'),
-	-- (1,2, 'Bella Colleto', '2020-01-13', 'Annual cleanup and checkup 2021', 1, 'Annual clean-up', NULL, NULL, NULL, NULL,'all teeth', 'Standard checkup, a larger accumulation of plaque are now appearing , we can schedule next annual checkup and add plaque removal procedure to it.'),
-	(1,2, 'Bella Colleto', '2020-01-13', 'Annual cleanup and checkup 2021', 1, 'Annual clean-up', NULL, NULL, NULL, NULL,'all teeth', 'Standard checkup, a larger accumulation of plaque are now appearing , we can schedule next annual checkup and add plaque removal procedure to it.')
+	(1,2, 'Bella Colleto', '2020-02-13', 'Annual cleanup and checkup 2020', 1, 'Annual clean-up', NULL, NULL, NULL, NULL,'all teeth', 'Standard checkup, nothing that is troubling at the moment , we can schedule next annual checkup.'),
+	(1,3, 'Bella Colleto', '2021-01-13', 'Annual cleanup and checkup 2021', 1, 'Annual clean-up', NULL, NULL, NULL, NULL,'all teeth', 'Standard checkup, a larger accumulation of plaque are now appearing , we can schedule next annual checkup and add plaque removal procedure to it.'),
+	(1,4, 'Bella Colleto', '2022-01-13', 'Annual cleanup and checkup 2022', 1, 'Annual clean-up + detartartage', NULL, NULL, NULL, NULL,'all teeth', 'Nothing unusual.'),
+	(1,5, 'Bella Colleto', '2022-04-12', 'Unexpected pain in mouth', 1, 'Pain Treatment', 'tooth needs to be filled', 'scan for teeth damage', 'found a cavity', 'advil','23', 'Nothing unusual.'),
+	(2,2, 'Bella Colleto', '2020-01-13', 'Annual cleanup and checkup 2021', 1, 'Annual clean-up', NULL, NULL, NULL, NULL,'all teeth', 'Standard checkup, a larger accumulation of plaque are now appearing , we can schedule next annual checkup and add plaque removal procedure to it.')
 
 ;
 

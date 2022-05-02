@@ -26,20 +26,20 @@
       Veuillez cliquer sur le module qui vous intéresse afin de procéder aux étapes nécessaires.
     </p>
 
-    <button onclick="redirectAjouter()">Voir les cliniques</button>
+    <button onclick="redirectAjouter()">Voir les cliniques et leurs employés</button>
     <button onclick="redirectModifier()">Voir les procedures disponibles </button>
     <button onclick="redirectUser()">Voir les utilisateurs</button>
     <button onclick="redirectFixer()">Voir les rendez-vous par clinique</button>
 
     <script>
       function redirectAjouter(){
-        document.location.href="ajouter_information.php";
+        document.location.href="clinics.php";
       }
       function redirectModifier(){
-        document.location.href="modifier_information.php";
+        document.location.href="procedures.php";
       }
       function redirectFixer(){
-        document.location.href="fixer_rendezvous.php";
+        document.location.href="voir_rendez_vous.php";
       }
 
       function redirectUser(){
