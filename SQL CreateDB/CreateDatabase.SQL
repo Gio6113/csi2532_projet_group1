@@ -537,8 +537,7 @@ VALUES
 	(23,12,13,1, '2023-09-21','14:00:00','14:30:00','Annual Clean-up','normal', '122'),
 	(24,13,17,1, '2023-02-13','14:45:00','15:45:00','Wisdom teeth removal','normal','123'),
 	(25,14,14,4, '2020-02-13','09:30:00','10:30:00','Annual Clean-up','finished','12'),
-	(27,1,17,1,   '2023-03-23','09:45:00','10:45:00','Cavity filling','normal','12'),
-	
+	(27,1,17,1,   '2023-03-23','09:45:00','10:45:00','Cavity filling','normal','12')	
 ;
 
 INSERT INTO mdf_visit_treatment
@@ -564,28 +563,3 @@ VALUES
 	
 ;
 	
-
-
--- 	--Original doctors/medical staff
--- 	(28,'Christine','Aguilera','Christine Aguilera','voice22','voice22','employee','1976-02-23',46),
--- 	(29,'Jean','Lafleur','Jean Lafleur','jean2dentist','jean2dentist','employee','1975-02-24',47),
--- 	(30,'Martha','Poliski','Martha Poliski','polisher1','polisher1','employee','1974-02-19',48),
--- 	(31,'Emmanuel','Macaron','Emmanuel Macaron','GiletJaune12','GiletJaune12','employee','1973-02-08',49),
--- 	(32,'Mia','Turner','Mia Turner','worker4ever','worker4ever','employee','1962-02-09',60),
--- 	(33,'Michael','Godfrey','Michael Godfrey','Miketooth24','Miketooth24','employee','1952-02-22',70),
--- 	(34,'Zinedine','Zidane','Zinedine Zidane','bluetooth13','siuuu22','employee','1950-07-13',71),
--- 	(35,'Jacob','Versace','Jacob Versace','jacobEmpAccount','$1234$','employee','1995-02-01',27),
--- 	(37,'Bella','Coletto','Bella Coletto','bellacol3','$333$','employee','1996-02-02',26),
--- 	(38,'Sully','Lovely','Sully Lovely','sullove2','$111$','employee','1990-04-21',32)
--- ;
--- 	(9,900123452, 'dentist',	190000.00,	29,	3,  'Female',	'57 Calibas Street, Vancouver, BC'),
--- 	(10,742874723,'hygienist',	56000.00,	30, 1,  'Female',	'44 George-Etienne Drive, Ottawa, ON'),
--- 	(11,478219361,'dentist',	212000.00,	31, 5,	'Male',		'209 Maverick Street, Halifax, NS'),
--- 	(12,194281333,'dentist',	311000.00,	32,	6,	'Female',	'442 Pompon Road, Regina , SK'),
--- 	(13,542529127,'dentist', 	140000.00,	33,	1, 	'Male',		'12 Kayak Street, Ottawa, ON'),
--- 	(14,935285265,'dentist', 	200000.00,	34, 4,	'Male',		'3135 Labelle Promenade, Montreal, QC'),
--- 	(15,992366668,'hygienist',	35000.00,	35, 6,	'Male',		'1921 Designer Avenue, Winnipec, MB'),
--- 	(16,542600891,'dentist',  	150000.00,	37, 2,	'Female',	'19 Spadina Avenue, Toronto, ON'),
--- 	(17,542631635,'dentist',  	150000.00,	37, 1,	'Female',	'33 Sussex Drive,Ottawa, ON')
--- ;
-
